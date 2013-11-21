@@ -7,3 +7,28 @@ Alan Irish    (cs login: irish) 906 591 2819
 DUE DATE: FRIDAY NOV 22, 2013
 
 ********************************************************************************
+
+For this project we will implement a type checker for CSX. This uses parts from
+previous projects 1 - 3, namely a block structered symbol table, a scanner, and
+a parser. Relevant files (i.e., SybmolInfo.java csx.jlex, csx.cup) are included.
+To build the type checker, we will be building off of a sample type checker 
+provided for us that verifies CSX-lite. This involves walking the abstract
+syntax tree and type checking each node. The main files we will be modifying
+are:
+
+	TypeChecking.java:
+
+	SymbolTable.java:
+
+	Other relevant files:
+
+
+TO DO::
+ x create git repo 
+ x divvy up code a la Unparsing.java of proj 3
+ - 
+
+QUESTIONS:
+ - how do we incorporate code from proj 1? SymbolInfo.java?
+ - how to handle identNoden type? how tell difference b/w types?
+
