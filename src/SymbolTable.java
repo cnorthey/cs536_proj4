@@ -6,6 +6,7 @@ import java.io.*;
 class SymbolTable {
    class Scope {
       Hashtable<String,Symb> currentScope;
+      ArrayList<argDeclNode> parameters = new ArrayList<argDeclNode>();
       Scope next;
       Scope() {
          currentScope = new Hashtable<String,Symb>();
@@ -39,7 +40,15 @@ class SymbolTable {
          throw new DuplicateException();
       else top.currentScope.put(key,s);
    }
-
+   
+   public void insertParm(argDeclNode p){
+	   top.parameters.add(p);
+   }
+   
+   public ArrayList<argDeclNode> getParms(){
+	   return top.parameters;
+   }
+   
    public Symb localLookup(String s) {
       String key = s.toLowerCase();
       if (top == null)
