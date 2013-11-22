@@ -1,7 +1,7 @@
 /* CS 536: PROJECT 3 - CSX TYPE CHECKER
  * 
  * Caela Northey (cs login: caela)	905 653 2238 
- * Alan Irish    (cs login: irish) 906 591 2819
+ * Alan Irish    (cs login: irish)  906 591 2819
  *
  * DUE DATE: FRIDAY NOV 22, 2013
  */
@@ -167,9 +167,6 @@ public class TypeChecking extends Visitor {
 	// 3) store a link to the symbol table entry in the identNode 
 	void visit(identNode n){
 		SymbolInfo    id;
-		//In CSX-lite all IDs should be vars!
-		// (not true for CSX, can be var or method or lable)
-    //assertCondition(n.kind == ASTNode.Kinds.Var);
     id =  (SymbolInfo) st.globalLookup(n.idname);
     if (id == null) {
       System.out.println(error(n) +  n.idname + " is not declared.");
@@ -199,11 +196,20 @@ public class TypeChecking extends Visitor {
 			return;
 		}
 		this.visit(n.subscriptVal);  // step 3
-    assertCondition(n.varName.kind == ASTNode.Kinds.Array); // step 4
+		try{
+    	assertCondition(n.varName.kind == ASTNode.Kinds.Array); // step 4
+		} catch (RuntimeException e) {
+			System.out.println(error(n) + "expected array.");
+		}
 		exprNode temp = (exprNode)n.subscriptVal;
-    assertCondition(isScalar(temp.kind)); // step 5
-    assertCondition((temp.type == ASTNode.Types.Integer) ||
+		try{
+    	assertCondition(isScalar(temp.kind)); // step 5
+    	assertCondition((temp.type == ASTNode.Types.Integer) ||
                     (temp.type == ASTNode.Types.Character));
+		} catch (RuntimeException e) {
+			System.out.println(error(n) + "subscript value should be an integer or" +
+                         " character, but " + temp.type + " was found instead.");
+		}
     n.type=n.varName.type;    // step 6
 
 	}
@@ -223,14 +229,24 @@ public class TypeChecking extends Visitor {
 
 		this.visit(n.target); // step 1
 		this.visit(n.source); // step 2
-		assertCondition(kindIsAssignable(n.target.kind)); // step 3
+		try{
+			assertCondition(kindIsAssignable(n.target.kind)); // step 3
+		} catch (RuntimeException e) {
+			System.out.println(error(n) + "Target of kind " + n.target.kind +
+                         " is not assignable.");
+		}
 		if(isScalar(n.target.kind)){ // step 4
 			assertCondition(isScalar(n.source.kind));
 			typesMustBeEqual(n.source.type, n.target.type,
         error(n) + "Both the left and right hand sides of an assignment must"
                  + " have the same type.");
 		}
-		assertCondition(n.target.varName.kind != ASTNode.Kinds.Value);
+		try{
+			//can't assign to a constant (aka value)
+			assertCondition(n.target.varName.kind != ASTNode.Kinds.Value);
+		} catch (RuntimeException e) {
+			System.out.println(error(n) + "Cannot assign to a constant value.");
+		}
 		if((n.target.varName.kind == ASTNode.Kinds.Array) && // step 5
        (n.source.kind == ASTNode.Kinds.Array) &&
        (n.target.varName.type == n.source.type)){
@@ -238,7 +254,11 @@ public class TypeChecking extends Visitor {
 			SymbolInfo id_s = (SymbolInfo)st.globalLookup(n.target.varName.idname);
 			nameNode temp = (nameNode)n.target; //know is array => nameNode
 			SymbolInfo id_t = (SymbolInfo)st.globalLookup(temp.varName.idname);
-			assertCondition(id_s.arraySize == id_t.arraySize);
+			try{
+				assertCondition(id_s.arraySize == id_t.arraySize);
+			} catch (RuntimeException e) {
+				System.out.println(error(n) + "Array must be same length.");
+			}
 			return;			
 		}
 		if(n.target.kind == ASTNode.Kinds.Array && // step 6
@@ -246,7 +266,11 @@ public class TypeChecking extends Visitor {
       n.source.kind == ASTNode.Kinds.String){
 			SymbolInfo id_s = (SymbolInfo)st.globalLookup(n.target.varName.idname);
 			strLitNode temp2 = (strLitNode)n.source; //know is string => strLitNode
-			assertCondition(id_s.arraySize == temp2.strval.length());
+			try{
+				assertCondition(id_s.arraySize == temp2.strval.length());
+			} catch (RuntimeException e) {
+				System.out.println(error(n) + "Character array and String must have same length");
+			}
 			return;
 		}
 
@@ -265,13 +289,18 @@ public class TypeChecking extends Visitor {
 	//can print int, bool and chars values + char arrays and sting lits
 	void visit(printNode n){
 		this.visit(n.outputValue);
-    assertCondition((n.outputValue.kind == ASTNode.Kinds.Value &&
-                    (n.outputValue.type == ASTNode.Types.Integer ||
-                     n.outputValue.type == ASTNode.Types.Boolean ||
-                     n.outputValue.type == ASTNode.Types.Character )) ||
-                    (n.outputValue.type == ASTNode.Types.Character &&
-                     n.outputValue.kind == ASTNode.Kinds.Array ) ||
-                    (n.outputValue.kind == ASTNode.Kinds.String));
+		try{
+    	assertCondition((n.outputValue.kind == ASTNode.Kinds.Value &&
+      	              (n.outputValue.type == ASTNode.Types.Integer ||
+      	               n.outputValue.type == ASTNode.Types.Boolean ||
+      	               n.outputValue.type == ASTNode.Types.Character )) ||
+      	              (n.outputValue.type == ASTNode.Types.Character &&
+      	               n.outputValue.kind == ASTNode.Kinds.Array ) ||
+      	              (n.outputValue.kind == ASTNode.Kinds.String));
+		} catch (RuntimeException e) {
+			System.out.println(error(n) + "Can only print Integer, Boolean, and "+
+                         "Character values, String, or arrays of Characters.");
+		}
 	}
 	  
 	void visit(blockNode n){
@@ -343,19 +372,29 @@ public class TypeChecking extends Visitor {
 
 	// only vars(including params) of type int or char may be ++/--
 	void visit(incrementNode n){
-		assertCondition((n.target.kind == ASTNode.Kinds.Var ||
-                    n.target.kind == ASTNode.Kinds.ScalarParm ||
-                    n.target.kind == ASTNode.Kinds.ArrayParm) &&
-                    (n.target.type == ASTNode.Types.Character ||
-                    n.target.type == ASTNode.Types.Integer));
+		try{
+			assertCondition((n.target.kind == ASTNode.Kinds.Var ||
+      	              n.target.kind == ASTNode.Kinds.ScalarParm ||
+      	              n.target.kind == ASTNode.Kinds.ArrayParm) &&
+      	              (n.target.type == ASTNode.Types.Character ||
+      	              n.target.type == ASTNode.Types.Integer));
+		} catch (RuntimeException e ){
+			System.out.println(error(n) + "Only variables and parameters of type"+
+                         "Integer or Characters may be incremented.");
+		}
 	}
 
 	void visit(decrementNode n){
-		assertCondition((n.target.kind == ASTNode.Kinds.Var ||
-                    n.target.kind == ASTNode.Kinds.ScalarParm ||
-                    n.target.kind == ASTNode.Kinds.ArrayParm) &&
-                    (n.target.type == ASTNode.Types.Character ||
-                    n.target.type == ASTNode.Types.Integer));
+		try{
+			assertCondition((n.target.kind == ASTNode.Kinds.Var ||
+      	              n.target.kind == ASTNode.Kinds.ScalarParm ||
+      	              n.target.kind == ASTNode.Kinds.ArrayParm) &&
+      	              (n.target.type == ASTNode.Types.Character ||
+      	              n.target.type == ASTNode.Types.Integer));
+		} catch (RuntimeException e) {
+			System.out.println(error(n) + "Only variables and parameters of type"+
+                         "Integer or Characters may be decremented.");
+		}
 	}
 
 	void visit(argDeclsNode n){
@@ -399,8 +438,12 @@ public class TypeChecking extends Visitor {
 	//    d) change label's kind in sym table to HiddenLabel
 	void visit(whileNode n){
 		this.visit(n.condition); // step 1
-		assertCondition(n.condition.type == ASTNode.Types.Boolean && //step 2
+		try{
+			assertCondition(n.condition.type == ASTNode.Types.Boolean && //step 2
                     isScalar(n.condition.kind));
+		} catch (RuntimeException e) {
+			System.out.println(error(n) + "Condition must be a scalar boolean.");
+		}
 		if(n.label.isNull()){ //step 3
 			this.visit(n.loopBody);
 			return;
@@ -436,7 +479,11 @@ public class TypeChecking extends Visitor {
 			System.out.println(error(n) + n.label.idname + " isn't declared.");
       typeErrors++;
 		}
-		assertCondition(n.label.kind == ASTNode.Kinds.VisibleLabel);
+		try{
+			assertCondition(n.label.kind == ASTNode.Kinds.VisibleLabel);
+		} catch (RuntimeException e) {
+			System.out.println(error(n) + "Label "+n.label.idname+"out of bounds.");
+		}
 	}
 
 	void visit(continueNode n){
@@ -446,7 +493,11 @@ public class TypeChecking extends Visitor {
 			System.out.println(error(n) + n.label.idname + " isn't declared.");
       typeErrors++;
 		}
-		assertCondition(n.label.kind == ASTNode.Kinds.VisibleLabel);
+		try{
+			assertCondition(n.label.kind == ASTNode.Kinds.VisibleLabel);
+		} catch (RuntimeException e) {
+			System.out.println(error(n) + "Label "+n.label.idname+"out of bounds.");
+		}
 	}
 
 	// 1) check that identNode.idname is declared in sym table with type
@@ -493,9 +544,9 @@ public class TypeChecking extends Visitor {
 		}
 	}
 	  
-	  void visit(argsNode n){
+	void visit(argsNode n){
 		System.out.println("Type checking for argsNode not yet implemented");
-	  }
+	}
 	  	
 	  void visit(nullArgsNode n){}
 		
@@ -517,6 +568,7 @@ public class TypeChecking extends Visitor {
 	}
 	  
 	void visit(strLitNode n){
+
 		//automatically type correct like intLitNode?
 	}
 
