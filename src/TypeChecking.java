@@ -1,17 +1,12 @@
-/* CS 536: PROJECT 3 - CSX TYPE CHECKER
+/* CS 536: PROJECT 4 - CSX TYPE CHECKER
  * 
  * Caela Northey (cs login: caela)	905 653 2238 
- * Alan Irish    (cs login: irish)  906 591 2819
+ * Alan Irish    (cs login: irish) 906 591 2819
  *
  * DUE DATE: FRIDAY NOV 22, 2013
  */
 
-// The following methods type check  AST nodes used in CSX Lite
-//  You will need to complete the methods after line 238 to type check the
-//   rest of CSX
-//  Note that the type checking done for CSX lite may need to be extended to
-//   handle full CSX (for example binaryOpNode).
-
+// The following methods type check AST nodes used in CSX
 public class TypeChecking extends Visitor { 
 
 	//	static int typeErrors =  0;     // Total number of type errors found 
@@ -187,7 +182,6 @@ public class TypeChecking extends Visitor {
 		}
 	}
 
-
 	void visit(csxLiteNode n){
 		this.visit(n.progDecls);
 		this.visit(n.progStmts);
@@ -228,9 +222,8 @@ public class TypeChecking extends Visitor {
 						error(n)+"Initializer must be of type "+n.varType.type);
 
 				// Check that the initial value’s kind is scalar
-				// Not sure if this is the best way to do it
 				try{
-				assertCondition(isScalar(((exprNode)n.initValue).kind));
+					assertCondition(isScalar(((exprNode)n.initValue).kind));
 				} catch (RuntimeException r){
 					System.out.println(error(n) + "Initial value must be scalar");
 				}
@@ -281,26 +274,6 @@ public class TypeChecking extends Visitor {
 	// 3) store a link to the symbol table entry in the identNode 
 	void visit(identNode n){
 		SymbolInfo    id;
-    id =  (SymbolInfo) st.globalLookup(n.idname);
-    if (id == null) {
-      System.out.println(error(n) +  n.idname + " is not declared.");
-      typeErrors++;
-      n.type = ASTNode.Types.Error;
-    } else {
-      n.type = id.type; 
-			n.kind = id.kind;
-      n.idinfo = id; // Save ptr to correct symbol table entry
-    }
-
-		//Not sure if an assertCondition is necessary
-	/*	assertCondition(n.kind == ASTNode.Kinds.Var ||
-				n.kind == ASTNode.Kinds.Value ||
-				n.kind == ASTNode.Kinds.Array ||
-				n.kind == ASTNode.Kinds.Method ||
-				n.kind == ASTNode.Kinds.VisibleLabel ||
-				n.kind == ASTNode.Kinds.ScalarParm ||
-				n.kind == ASTNode.Kinds.ArrayParm);
-
 		id =  (SymbolInfo) st.globalLookup(n.idname);
 		if (id == null) {
 			System.out.println(error(n) +  n.idname + " is not declared.");
@@ -308,10 +281,11 @@ public class TypeChecking extends Visitor {
 			n.type = ASTNode.Types.Error;
 		} else {
 			n.type = id.type; 
+			n.kind = id.kind;
 			n.idinfo = id; // Save ptr to correct symbol table entry
 		}
-*/
 	}
+
 
 	// Extend nameNode's method to handle subscripts
 	// 1) type check identNode
@@ -331,22 +305,23 @@ public class TypeChecking extends Visitor {
 		}
 		this.visit(n.subscriptVal);  // step 3
 		try{
-    	assertCondition(n.varName.kind == ASTNode.Kinds.Array); // step 4
+			assertCondition(n.varName.kind == ASTNode.Kinds.Array); // step 4
 		} catch (RuntimeException e) {
 			System.out.println(error(n) + "expected array.");
 		}
 		exprNode temp = (exprNode)n.subscriptVal;
 		try{
-    	assertCondition(isScalar(temp.kind)); // step 5
-    	assertCondition((temp.type == ASTNode.Types.Integer) ||
-                    (temp.type == ASTNode.Types.Character));
+			assertCondition(isScalar(temp.kind)); // step 5
+			assertCondition((temp.type == ASTNode.Types.Integer) ||
+					(temp.type == ASTNode.Types.Character));
 		} catch (RuntimeException e) {
 			System.out.println(error(n) + "subscript value should be an integer or" +
-                         " character, but " + temp.type + " was found instead.");
+					" character, but " + temp.type + " was found instead.");
 		}
-    n.type=n.varName.type;    // step 6
+		n.type=n.varName.type;    // step 6
 
 	}
+
 
 	// 1,2) type check nameNode and expression tree
 	// 3) check that nameNode' kind is assignable (var, array, scalar
@@ -476,8 +451,8 @@ public class TypeChecking extends Visitor {
 		// Check that left and right operands are both scalar.
 		//These are causing problems
 		try{
-		assertCondition(isScalar(n.leftOperand.kind));
-		assertCondition(isScalar(n.rightOperand.kind));
+			assertCondition(isScalar(n.leftOperand.kind));
+			assertCondition(isScalar(n.rightOperand.kind));
 		} catch (RuntimeException r){
 			System.out.print(error(n)+"Operands of"+opToString(n.operatorCode)
 					+ "must be scalar.");
@@ -501,16 +476,16 @@ public class TypeChecking extends Visitor {
 		else if (n.operatorCode == sym.EQ  || n.operatorCode == sym.NOTEQ ||
 				n.operatorCode == sym.GEQ || n.operatorCode == sym.GT  ||
 				n.operatorCode == sym.LEQ || n.operatorCode == sym.LT) {
-			// Relational operatorsmay be applied only to a pair of arithmetic 
+			// Relational operators may be applied only to a pair of arithmetic 
 			// values or to a pair of bool values; the result is of type bool.
 			n.type = ASTNode.Types.Boolean;
-			
+
 			String errorMsg = error(n)+"operands of"+
 					opToString(n.operatorCode)+"must both be arithmetic or both"
-							+ "must be boolean.";
+					+ "must be boolean.";
 			// Both operands must be arithmetic, or both must be booleans
 			typesMustBeComparable(n.leftOperand.type, n.rightOperand.type,
-																	errorMsg);
+					errorMsg);
 		} //Check if logical operation
 		else {
 			//Logical operators may be applied only to bool values
@@ -552,9 +527,9 @@ public class TypeChecking extends Visitor {
 
 
 	void  visit(memberDeclsNode n){
-		//Type check fields
+		//Type check field declarations
 		this.visit(n.fields);
-		//Type check methods
+		//Type check method declarations
 		this.visit(n.methods);
 	}
 
@@ -581,20 +556,32 @@ public class TypeChecking extends Visitor {
 		// Check that identNode.idname is not already in the symbol table.
 		if (id != null) {
 			//If already in symbol table, check if overloading is possible
+			
+			//Check if name is used by a non-method
+			if(id.kind != ASTNode.Kinds.Method){
+				System.out.println(error(n) + n.name.idname + 
+						" is already declared.");
+				typeErrors++;
+				n.name.type = ASTNode.Types.Error;
+			}
+			
 			// Create new scope in symbol table.
 			st.openScope();
 
 			//Type check args subtree. 
 			// A list of symbol table nodes is created while doing this
 			this.visit(n.args);
-			
+
 			//If it is in the table, check for unique parameters
-			if(id.containsParms(st.getParms()))
+			if((id.kind == ASTNode.Kinds.Method) && 
+					id.containsParms(st.getParms()))
 			{
 				System.out.println(error(n) + n.name.idname + " is already "
-						+ "declared. Duplicate parameters, "
-						+ "invalid overloading.");
-			} else {
+						+ "declared. Invalid overloading.");
+				typeErrors++;
+				n.name.type = ASTNode.Types.Error;
+			} else if (id.kind == ASTNode.Kinds.Method) {
+				//Overloading valid, add new parameters
 				id.addMethodParms(st.getParms());
 			}
 
@@ -622,30 +609,27 @@ public class TypeChecking extends Visitor {
 			// A method declaration requires a new symbol table entry.
 			//Create new entry m, with type = typeNode.type, and kind = Method
 			id = new SymbolInfo(n.name.idname, ASTNode.Kinds.Method, 
-														n.returnType.type);
+					n.returnType.type);
 
 			//Create new scope in symbol table.
 			st.openScope();
-			
-			// Not sure if this step is needed anymore:
-			//4. Set currentMethod = methodDeclNode
 
 			//Type check args subtree
-			// A list of symbol table nodes is created while doing this
+			// A list of parameters is created from arg nodes while doing this
 			this.visit(n.args);
 
 			// Add the parameters to the methods symbol info
 			id.addMethodParms(st.getParms());
-			
+
 			//Type check the decls subtree
 			this.visit(n.decls);
 			//Type check the stmts
 			this.visit(n.stmts);
 
-			//Close the current scope at the top of the symbol table 
+			//Close the method's scope at the top of the symbol table 
 			try { st.closeScope();
 			} catch (EmptySTException e)
-			{ /* can't happen? */ }
+			{ /* can't happen */ }
 			n.name.idinfo=id;
 
 			//Add method to symbol table
@@ -694,7 +678,7 @@ public class TypeChecking extends Visitor {
 
 	void visit(valArgDeclNode n){
 		SymbolInfo	id;
-		
+
 		// Check that identNode.idname is not already in the symbol table.
 		id = (SymbolInfo) st.localLookup(n.argName.idname);
 		if (id != null) {
@@ -704,8 +688,7 @@ public class TypeChecking extends Visitor {
 			//Inserts the erroneous node in the param list
 			st.insertParm(n);
 		} else {
-			
-			
+
 			//Enter new id into the symbol table
 			id = new SymbolInfo(n.argName.idname,
 					ASTNode.Kinds.ScalarParm, n.argType.type);
@@ -717,7 +700,7 @@ public class TypeChecking extends Visitor {
 			catch (EmptySTException e) 
 			{ /* can't happen */ }
 			n.argName.idinfo=id;
-			
+
 			// Insert parameter into the list of parameters
 			st.insertParm(n);
 		}
@@ -725,15 +708,15 @@ public class TypeChecking extends Visitor {
 
 	void visit(arrayArgDeclNode n){
 		SymbolInfo	id;
-		
+
 		// Check that identNode.idname is not already in the symbol table.
 		id = (SymbolInfo) st.localLookup(n.argName.idname);
 		if (id != null) {
 			System.out.println(error(n) + id.name()+ " is already declared.");
 			typeErrors++;
 			n.argName.type = ASTNode.Types.Error;
-			
-			// Insert Error parameter node, not so sure about this
+
+			// Insert erroneous parameter node into parm list
 			st.insertParm(n);
 		} else {		
 			// Enter parameter into symbol table 
@@ -768,11 +751,12 @@ public class TypeChecking extends Visitor {
 			// Type check the const value expr.
 			visit(n.constValue);	
 
-			// 3. Check that the const value’s kind is scalar (Variable, Value or ScalarParm)
+			// Check that the const value’s kind is scalar
 			try{
-			assertCondition(isScalar(n.constValue.kind));
+				assertCondition(isScalar(n.constValue.kind));
 			} catch (RuntimeException r){
-				System.out.println(error(n)+"Only scalars can be made constants");
+				System.out.println(error(n)+
+						"Only scalars can be made constants");
 			}
 			//Enter identNode.idname into symbol table with 
 			//type = constValue.type and kind = Value.
@@ -804,18 +788,21 @@ public class TypeChecking extends Visitor {
 			n.arrayName.type = ASTNode.Types.Error;
 		} else {
 
+			id = new SymbolInfo(n.arrayName.idname,
+					ASTNode.Kinds.Array, n.elementType.type);
+
 			//The size of an array (in a declaration) must be greater than zero.
 			if(n.arraySize.intval < 1){
 				System.out.println(error(n) + n.arrayName.idname 
 						+ " must have more than 0 elements.");
 				typeErrors++;
 				n.arrayName.type = ASTNode.Types.Error;
+				id.arraySize = 1;
+			} else {
+				id.arraySize = n.arraySize.intval;
+				n.arrayName.type = n.elementType.type;
 			}
-
-			id = new SymbolInfo(n.arrayName.idname,
-					ASTNode.Kinds.Array, n.elementType.type);
-
-			n.arrayName.type = n.elementType.type; //not sure if correct
+			
 			try {
 				st.insert(id);
 			} catch (DuplicateException d) 
@@ -951,14 +938,14 @@ public class TypeChecking extends Visitor {
 		}
 	}
 
+
 	void visit(argsNode n){
 		System.out.println("Type checking for argsNode not yet implemented");
 	}
-	  	
-	  void visit(nullArgsNode n){}
-		
-	  void visit(castNode n){
 
+	void visit(nullArgsNode n){}
+
+	void visit(castNode n){
 		System.out.println("Type checking for castNode not yet implemented");
 	}
 
