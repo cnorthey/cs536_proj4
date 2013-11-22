@@ -100,6 +100,5 @@ class SymbolInfo extends Symb {
 	//	kind = new Kinds(k); type = new Types(t);};
 	public String toString(){
 		return "("+name()+": kind=" + kind+ ", type="+  type+")";};
->>>>>>> 34df26d677995ea3909c97cd54b5b58d76bf858b
-}
 
+}
