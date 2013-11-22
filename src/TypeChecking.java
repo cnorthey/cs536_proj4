@@ -16,8 +16,8 @@ public class TypeChecking extends Visitor {
 
 //	static int typeErrors =  0;     // Total number of type errors found 
 //  	public static SymbolTable st = new SymbolTable(); 	
-	int typeErrors;     // Total number of type errors found 
-	SymbolTable st;	
+	int typeErrors;     // Total number of type errors found
+	SymbolTable st;
 	
 	TypeChecking(){
 		typeErrors = 0;
@@ -68,16 +68,6 @@ public class TypeChecking extends Visitor {
            (testKind == ASTNode.Kinds.Value)||
            (testKind == ASTNode.Kinds.Var);
 	}
-
-	boolean isSameKind(ASTNode.Kinds kind1, ASTNode.Kinds kind2){
-		return (kind1 == kind2);
-	}
-
-	boolean isSameType(ASTNode.Types type1, ASTNode.Types type2){
-		return (type1 == type2);
-	}
-
-
 
 	String error(ASTNode n) {
 		return "Error (line " + n.linenum + "): ";
@@ -204,15 +194,16 @@ public class TypeChecking extends Visitor {
 	void visit(nameNode n){
 		this.visit(n.varName);    // step 1
 		if(n.subscriptVal.isNull()){ // step 2
-			n.type = n.varNode.type;
-			n.kind = n.varNode.kind;
+			n.type = n.varName.type;
+			n.kind = n.varName.kind;
 			return;
 		}
 		this.visit(n.subscriptVal);  // step 3
-    assertCondition(n.varName.kind == ASTNode.kind.Array); // step 4
-    assertCondition(isScalar(n.subscriptVal.kind)); // step 5
-    assertCondition((n.subscriptVal.type == ASTNode.Types.Integer) ||
-                    (n.subscriptVal.type == ASTNode.Types.Character));
+    assertCondition(n.varName.kind == ASTNode.Kinds.Array); // step 4
+		exprNode temp = (exprNode)n.subscriptVal;
+    assertCondition(isScalar(temp.kind)); // step 5
+    assertCondition((temp.type == ASTNode.Types.Integer) ||
+                    (temp.type == ASTNode.Types.Character));
     n.type=n.varName.type;    // step 6
 
 	}
@@ -227,6 +218,7 @@ public class TypeChecking extends Visitor {
 	// 6) if nameNode's kind is array and type is char, and expr tree's kind
 	//    is string, check that both have same length; then return
 	// 7) otherwise, expr may not be assigned to name node
+	// other notes: can't asign to const var
 	void visit(asgNode n){
 
 		this.visit(n.target); // step 1
@@ -238,17 +230,24 @@ public class TypeChecking extends Visitor {
         error(n) + "Both the left and right hand sides of an assignment must"
                  + " have the same type.");
 		}
-		if(isSameKind(n.target, n.source) && isSameType(n.target, n.source)){ //step 5
-			assertCondition((arrayDeclNode)n.target.arraySize == 
-                      (arrayDeclNode)n.source.arraySize);
+		assertCondition(n.target.varName.kind != ASTNode.Kinds.Value);
+		if((n.target.varName.kind == ASTNode.Kinds.Array) && // step 5
+       (n.source.kind == ASTNode.Kinds.Array) &&
+       (n.target.varName.type == n.source.type)){
+			//look up target and source to get array info
+			SymbolInfo id_s = (SymbolInfo)st.globalLookup(n.target.varName.idname);
+			nameNode temp = (nameNode)n.target; //know is array => nameNode
+			SymbolInfo id_t = (SymbolInfo)st.globalLookup(temp.varName.idname);
+			assertCondition(id_s.arraySize == id_t.arraySize);
 			return;			
 		}
-		if(n.target.kind == ASTNode.Array && // step 6
+		if(n.target.kind == ASTNode.Kinds.Array && // step 6
 			n.target.type == ASTNode.Types.Character &&
-      n.source.kind == ASTNide.Kinds.String){
-			assertCondition((arrayDeclNode)n.target.arraySize ==
-                      (strLitNode)n.source.strVal.length);
-			return;		
+      n.source.kind == ASTNode.Kinds.String){
+			SymbolInfo id_s = (SymbolInfo)st.globalLookup(n.target.varName.idname);
+			strLitNode temp2 = (strLitNode)n.source; //know is string => strLitNode
+			assertCondition(id_s.arraySize == temp2.strval.length());
+			return;
 		}
 
 		assertCondition(false); // step 7
@@ -272,21 +271,20 @@ public class TypeChecking extends Visitor {
                      n.outputValue.type == ASTNode.Types.Character )) ||
                     (n.outputValue.type == ASTNode.Types.Character &&
                      n.outputValue.kind == ASTNode.Kinds.Array ) ||
-                    (n.outputValue.kind == ASTNode.Kinds.String);
+                    (n.outputValue.kind == ASTNode.Kinds.String));
 	}
 	  
-	  void visit(blockNode n){
-		// open a new local scope for the block body
-			st.openScope();
-			this.visit(n.decls);
-			this.visit(n.stmts);
-			// close this block's local scope
-			try { st.closeScope();
-			}  catch (EmptySTException e) 
-	                      { /* can't happen */ }
-	  }
+	void visit(blockNode n){
+	  // open a new local scope for the block body
+		st.openScope();
+		this.visit(n.decls);
+		this.visit(n.stmts);
+		// close this block's local scope
+		try { st.closeScope();
+		}  catch (EmptySTException e) 
+	    { /* can't happen */ }
+	}
 
-	
 	  void visit(binaryOpNode n){
 		  
 		//Only four bin ops in CSX-lite
@@ -321,7 +319,7 @@ public class TypeChecking extends Visitor {
 		System.out.println("Type checking for classNode not yet implemented");
 		}
 
-	 void  visit(memberDeclsNode n){whil
+	 void  visit(memberDeclsNode n){
 		System.out.println("Type checking for memberDeclsNode not yet implemented");
 	 }
 	 
@@ -402,24 +400,29 @@ public class TypeChecking extends Visitor {
 	void visit(whileNode n){
 		this.visit(n.condition); // step 1
 		assertCondition(n.condition.type == ASTNode.Types.Boolean && //step 2
-                    isScalar(n.condition.type));
+                    isScalar(n.condition.kind));
 		if(n.label.isNull()){ //step 3
 			this.visit(n.loopBody);
 			return;
 		} else { //step 4
-			SymbolInfo id;
-    	id = (SymbolInfo) st.localLookup((nameNode)n.varName.idname); // 4a
+			nameNode temp = (nameNode)n.label;
+    	SymbolInfo id = (SymbolInfo) st.localLookup(temp.varName.idname); // 4a
     	if (id != null) {
-				System.out.println(error(n) + id.name()+ " is alreintliady declared.");
+				System.out.println(error(n) + id.name()+ " is already declared.");
       	typeErrors++;
-      	(nameNode)n.varName.type = ASTNode.Types.Error;
+      	temp.varName.type = ASTNode.Types.Error;
 			}else { // 4b
-       id = new SymbolInfo((nameNode)n.varName.idname, ASTNode.Kinds.VisibleLable,
-                            ASTNode.Types.Void);
-       n.varName.type = n.varType.type;
+       id = new SymbolInfo(temp.varName.idname, ASTNode.Kinds.VisibleLabel,
+                           ASTNode.Types.Void);
+       try {
+        	st.insert(id);
+				} catch (DuplicateException d) 
+        { /* can't happen, already checked */ }
+			  	catch (EmptySTException e) 
+        { /* can't happen */ }
 			}
-			this.visit(this.stmtNode); // 4c
-			id.kind = ASTNode.Kinds.HiddenLabel //4d
+			this.visit(n.loopBody); // 4c
+			id.kind = ASTNode.Kinds.HiddenLabel; //4d
 		}
 
 	}
@@ -428,22 +431,22 @@ public class TypeChecking extends Visitor {
 	// 2) check that identNode's kind is VisibleLable (error if hidden)
 	void visit(breakNode n){
 		SymbolInfo id;
-   	id = (SymbolInfo) st.localLookup(n.label.idname); // 4a
+   	id = (SymbolInfo) st.localLookup(n.label.idname);
     if (id == null) {
-			System.out.println(error(n) + n.label.idname()+ " isn't declared.");
+			System.out.println(error(n) + n.label.idname + " isn't declared.");
       typeErrors++;
 		}
-		assertCondition(n.label.idname.kind == ASTNode.Kinds.VisibleLabel);
+		assertCondition(n.label.kind == ASTNode.Kinds.VisibleLabel);
 	}
 
 	void visit(continueNode n){
 		SymbolInfo id;
-   	id = (SymbolInfo) st.localLookup(n.label.idname); // 4a
+   	id = (SymbolInfo) st.localLookup(n.label.idname);
     if (id == null) {
-			System.out.println(error(n) + n.label.idname()+ " isn't declared.");
+			System.out.println(error(n) + n.label.idname + " isn't declared.");
       typeErrors++;
 		}
-		assertCondition(n.label.idname.kind == ASTNode.Kinds.VisibleLabel);
+		assertCondition(n.label.kind == ASTNode.Kinds.VisibleLabel);
 	}
 
 	// 1) check that identNode.idname is declared in sym table with type
@@ -482,9 +485,13 @@ public class TypeChecking extends Visitor {
 	// 2) if returnVal is not null, check that returnVal's kind is scalar
 	//    and its type is currentMethod.returnType
 	void visit(returnNode n){
-		System.out.println("Type checking for returnNode not yet implemented");
+		if(n.returnVal.isNull()){ // step 1
+			//assertCondition(currentMethod.returnType == ASTNode.Types.Void);
+		} else { //step 2
+			//assertCondition(isScalar(n.returnVal.kind) &&
+                      //(n.returnVal.type == currentMethod.returnType));
+		}
 	}
-
 	  
 	  void visit(argsNode n){
 		System.out.println("Type checking for argsNode not yet implemented");
@@ -506,24 +513,19 @@ public class TypeChecking extends Visitor {
 
 	
 	void visit(charLitNode n){
-		//System.out.println("Type checking for charLitNode not yet implemented");
-		//automatically type correct b/c parser?
+		//automatically type correct like intLitNode?
 	}
 	  
 	void visit(strLitNode n){
-		//System.out.println("Type checking for charLitNode not yet implemented");
-		//automatically type correct b/c parser?
+		//automatically type correct like intLitNode?
 	}
 
-	
 	void visit(trueNode n){
-		//System.out.println("Type checking for charLitNode not yet implemented");
-		//automatically type correct b/c parser?
+		//automatically type correct?
 	}
 
 	void visit(falseNode n){
-		//System.out.println("Type checking for charLitNode not yet implemented");
-		//automatically type correct b/c parser?
+		//automatically type correct?
 	}
 
 
