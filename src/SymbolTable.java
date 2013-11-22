@@ -6,14 +6,16 @@ import java.io.*;
 class SymbolTable {
    class Scope {
       Hashtable<String,Symb> currentScope;
-      ArrayList<argDeclNode> parameters = new ArrayList<argDeclNode>();
+  	  ArrayList<parmInfo> parameters;
       Scope next;
       Scope() {
          currentScope = new Hashtable<String,Symb>();
+         parameters = new ArrayList<parmInfo>();
          next = null;
       }
       Scope(Scope scopes) {
          currentScope = new Hashtable<String,Symb>();
+         parameters = new ArrayList<parmInfo>();
          next = scopes;
       }
    }
@@ -25,6 +27,12 @@ class SymbolTable {
    public void openScope() {
       top = new Scope(top); }
 
+   public ArrayList<parmInfo> getParms(){
+	   return top.parameters;
+   }
+   public void addParm(parmInfo p){
+	   top.parameters.add(p);
+   }
    public void closeScope() throws EmptySTException {
       if (top == null)
          throw new EmptySTException();
@@ -40,14 +48,7 @@ class SymbolTable {
          throw new DuplicateException();
       else top.currentScope.put(key,s);
    }
-   
-   public void insertParm(argDeclNode p){
-	   top.parameters.add(p);
-   }
-   
-   public ArrayList<argDeclNode> getParms(){
-	   return top.parameters;
-   }
+
    
    public Symb localLookup(String s) {
       String key = s.toLowerCase();

@@ -1,3 +1,4 @@
+
 /* CS 536: PROJECT 4 - CSX TYPE CHECKER
  * 
  * Caela Northey (cs login: caela)	905 653 2238 
@@ -686,7 +687,8 @@ public class TypeChecking extends Visitor {
 			typeErrors++;
 			n.argName.type = ASTNode.Types.Error;
 			//Inserts the erroneous node in the param list
-			st.insertParm(n);
+			st.addParm(new parmInfo(ASTNode.Kinds.ScalarParm,n.argType.type));
+			//parameters.add(new parmInfo(ASTNode.Kinds.ScalarParm,n.argType.type));
 		} else {
 
 			//Enter new id into the symbol table
@@ -702,7 +704,8 @@ public class TypeChecking extends Visitor {
 			n.argName.idinfo=id;
 
 			// Insert parameter into the list of parameters
-			st.insertParm(n);
+			st.addParm(new parmInfo(ASTNode.Kinds.ScalarParm,n.argType.type));
+			//parameters.add(new parmInfo(ASTNode.Kinds.ScalarParm, n.argType.type));
 		}
 	}
 
@@ -717,7 +720,10 @@ public class TypeChecking extends Visitor {
 			n.argName.type = ASTNode.Types.Error;
 
 			// Insert erroneous parameter node into parm list
-			st.insertParm(n);
+			st.addParm(new parmInfo(ASTNode.Kinds.ArrayParm, 
+						n.elementType.type));
+		//	parameters.add(new parmInfo(ASTNode.Kinds.ArrayParm, 
+		//			n.elementType.type));
 		} else {		
 			// Enter parameter into symbol table 
 			id = new SymbolInfo(n.argName.idname,
@@ -732,7 +738,11 @@ public class TypeChecking extends Visitor {
 			n.argName.idinfo=id;
 
 			//Add to scope's list of parameters
-			st.insertParm(n);
+			st.addParm(new parmInfo(ASTNode.Kinds.ArrayParm, 
+					n.elementType.type));
+
+		//	parameters.add(new parmInfo(ASTNode.Kinds.ArrayParm, 
+		//										n.elementType.type));
 		}
 	}
 
@@ -914,7 +924,7 @@ public class TypeChecking extends Visitor {
 			typeErrors++;
 			//n.methodName.type = ASTNode.Types.Error;
 		}
-		assertCondition(id.type == ASTNode.Types.Void && id.kind == ASTNode.Kinds.Method);
+		//assertCondition(id.type == ASTNode.Types.Void && id.kind == ASTNode.Kinds.Method);
 		this.visit(n.args); // step 2
 
 
@@ -963,6 +973,8 @@ public class TypeChecking extends Visitor {
 
 	void visit(strLitNode n){
 		//automatically type correct like intLitNode?
+		n.kind = ASTNode.Kinds.Array;
+		n.type = ASTNode.Types.Character;
 	}
 
 	void visit(trueNode n){
