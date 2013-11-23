@@ -362,7 +362,6 @@ public class TypeChecking extends Visitor {
 
 	}
 
-
 	// 1,2) type check nameNode and expression tree
 	// 3) check that nameNode' kind is assignable (var, array, scalar
 	//    param, or array param)
@@ -387,38 +386,36 @@ public class TypeChecking extends Visitor {
 			return;
 		} 
 		if(isScalar(n.target.kind)){ // step 4 
-/*			try{
-				assertCondition(isScalar(n.source.kind));
-			} catch (RuntimeException e){
-				typeErrors++;
-				System.out.println(error(n) + "Source expression must be scalar."+n.source.kind);
-				typeErrors++; return;
-			}
-*/
-			typesMustBeEqual(n.source.type, n.target.type,
-					error(n) + "Both the left and right hand sides of an assignment must"
-							+ " have the same type.");
 			try{
 				//can't assign to a constant (aka value)
-				assertCondition(n.target.varName.kind != ASTNode.Kinds.Value);
+				assertCondition(n.target.kind != ASTNode.Kinds.Value);
 			} catch (RuntimeException e) {
 				typeErrors++;
 				System.out.println(error(n) + "Cannot assign to a constant value.");
 			}
-			return;
+			try{
+				//target and source must have same type
+				assertCondition(n.target.type == n.source.type);
+			} catch (RuntimeException e) {
+				typeErrors++;
+				System.out.println(error(n)+"Both the left and right hand "+
+                   "sides of an assignment must have the same type.");
+			}
+      return;
 		}
+		
 		if((n.target.varName.kind == ASTNode.Kinds.Array) && // step 5
 				(n.source.kind == ASTNode.Kinds.Array) &&
 				(n.target.varName.type == n.source.type)){
 			//look up target and source to get array info
 			SymbolInfo id_s = (SymbolInfo)st.globalLookup(n.target.varName.idname);
-			nameNode temp = (nameNode)n.target; //know is array => nameNode
+			nameNode temp = (nameNode)n.source; //know is array => nameNode
 			SymbolInfo id_t = (SymbolInfo)st.globalLookup(temp.varName.idname);
 			try{
 				assertCondition(id_s.arraySize == id_t.arraySize);
 			} catch (RuntimeException e) {
 				typeErrors++;
-				System.out.println(error(n) + "Array must be same length.");
+				System.out.println(error(n) + "Arrays must be same length.");
 			}
 			return;			
 		}
@@ -431,7 +428,7 @@ public class TypeChecking extends Visitor {
 				assertCondition(id_s.arraySize == countChars(temp2.strval));
 			} catch (RuntimeException e) {
 				typeErrors++;
-				System.out.println(error(n) + "Character array and String must have same length."+id_s.arraySize+","+countChars(temp2.strval));
+				System.out.println(error(n) + "Character array and String must have same length.");
 			}
 			return;
 		}
@@ -476,7 +473,6 @@ public class TypeChecking extends Visitor {
 		{ /* can't happen */ }
 	}
 
-
 	void visit(binaryOpNode n){
 
 		//Make sure the binary operator has a valid binary operator symbol
@@ -499,15 +495,15 @@ public class TypeChecking extends Visitor {
 		// Type check left and right operands
 		this.visit(n.leftOperand);
 		this.visit(n.rightOperand);
-
+		
 		// Check that left and right operands are both scalar.
-		//These are causing problems
 		try{
 			assertCondition(isScalar(n.leftOperand.kind));
 			assertCondition(isScalar(n.rightOperand.kind));
 		} catch (RuntimeException r){
 			System.out.println(error(n)+"Operands of"+opToString(n.operatorCode)
 					+ "must be scalar.");
+			typeErrors++;
 		}
 		//Check for arithmetic operation, + - / *
 		if (n.operatorCode== sym.PLUS  || n.operatorCode== sym.MINUS ||
@@ -990,7 +986,7 @@ public class TypeChecking extends Visitor {
 			assertCondition(id.kind == ASTNode.Kinds.VisibleLabel);
 		} catch (RuntimeException e) {
 			typeErrors++;
-			System.out.println(error(n) + "Label "+n.label.idname+"out of scope.");
+			System.out.println(error(n) + "Label "+n.label.idname+" out of scope.");
 		}
 	}
 
@@ -1007,6 +1003,7 @@ public class TypeChecking extends Visitor {
 	//       scalarparam parm; an array or arrayparam kind in an argument
 	//       node matches an arrayparm param
 	void visit(callNode n){
+
 		SymbolInfo id;
 		id = (SymbolInfo) st.globalLookup(n.methodName.idname); // step 1
 		if (id == null) {
@@ -1032,11 +1029,11 @@ public class TypeChecking extends Visitor {
 			n.methodName.type = ASTNode.Types.Error;
 			if(id.parameters.size() == 0){
 				System.out.println(error(n)+n.methodName.idname
-						+" expects 0 parameters");
+						+" requires 0 parameters");
 			} else if (id.parameters.size() == 1){
 				if(id.parameters.get(0).size() != args.size()){
 					System.out.println(error(n)+n.methodName.idname
-							+" expects "+id.parameters.get(0).size()
+							+" requires "+id.parameters.get(0).size()
 							+" parameters");
 				}
 				else
@@ -1054,7 +1051,6 @@ public class TypeChecking extends Visitor {
 						+" definitions of "+n.methodName.idname
 						+" match the parameters in this call.");
 			}
-
 		}
 	}
 
@@ -1129,6 +1125,7 @@ public class TypeChecking extends Visitor {
 		n.kind = n.operand.kind;
 	}
 
+	
 	//similar to callNode
 	//only identifiers denoting functions (methods w non-void result type)
 	//can be called in expressions; result type = type of function
@@ -1144,12 +1141,18 @@ public class TypeChecking extends Visitor {
 					+ "declared.");
 			typeErrors++;
 			n.methodName.type = ASTNode.Types.Error;
+		} else if (id.kind != ASTNode.Kinds.Method) {
+			System.out.println(error(n) + n.methodName.idname+" is not a method.");
+			typeErrors++;
+			n.methodName.type = ASTNode.Types.Error;			
 		} else {
+			//Assign the fctCallNode the type and kind of the method
+			n.type = id.type;
+			n.kind = ASTNode.Kinds.ScalarParm;
 			try{
 				assertCondition(!(id.type == ASTNode.Types.Void));
 			} catch (RuntimeException e){
-				System.out.println(error(n) + n.methodName.idname +" returns void;"+
-						" expected type "+n.methodName.type+".");
+				System.out.println(error(n) + n.methodName.idname +" returns void, but requires a return value.");
 				typeErrors++;
 			}
 			this.visit(n.methodArgs); // step 2
@@ -1158,14 +1161,13 @@ public class TypeChecking extends Visitor {
 				assertCondition(id.containsParms(args)); // step 4
 			} catch (RuntimeException e){
 				typeErrors++;
-				n.methodName.type = ASTNode.Types.Error;
 				if(id.parameters.size() == 0){
 					System.out.println(error(n)+n.methodName.idname
-												+" expects 0 parameters");
+												+" requires 0 parameters");
 				} else if (id.parameters.size() == 1){
 					if(id.parameters.get(0).size() != args.size()){
 						System.out.println(error(n)+n.methodName.idname
-						+" expects "+id.parameters.get(0).size()+" parameters");
+						+" requires "+id.parameters.get(0).size()+" parameters");
 					}
 					else
 					for(int i = 0; i < id.parameters.get(0).size(); i++){
