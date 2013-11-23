@@ -395,7 +395,6 @@ public class TypeChecking extends Visitor {
 			}
 			try{
 				//target and source must have same type
-//System.out.println(n.target.type+","+n.source.type);
 				assertCondition(n.target.type == n.source.type);
 			} catch (RuntimeException e) {
 				typeErrors++;
@@ -1114,7 +1113,6 @@ public class TypeChecking extends Visitor {
 			typeErrors++;
 			System.out.println(error(n) + "Can only cast ints, chars, and bools"+
 					" to int, char, or bool.");
-			return;
 		}
 		if(n.resultType instanceof boolTypeNode){
 			n.type = ASTNode.Types.Boolean;
@@ -1152,7 +1150,7 @@ public class TypeChecking extends Visitor {
 			try{
 				assertCondition(!(id.type == ASTNode.Types.Void));
 			} catch (RuntimeException e){
-				System.out.println(error(n) + n.methodName.idname +" returns void, but requires a return value.");
+				System.out.println(error(n) + n.methodName.idname +" is called as a procedure and must therefore return void.");
 				typeErrors++;
 			}
 			this.visit(n.methodArgs); // step 2

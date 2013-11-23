@@ -5,6 +5,7 @@ Alan Irish    (cs login: irish) 906 591 2819
 
 
 DUE DATE: FRIDAY NOV 22, 2013
+SUBMITTED: SAT NOV 23, 2013 (1 DAY LATE)
 
 ********************************************************************************
 
@@ -14,13 +15,17 @@ a parser. Relevant files (i.e., SybmolInfo.java csx.jlex, csx.cup) are included.
 To build the type checker, we will be building off of a sample type checker 
 provided for us that verifies CSX-lite. This involves walking the abstract
 syntax tree and type checking each node. The main files we will be modifying
-are:
+are shown below.
 
-	TypeChecking.java: to implement type checking for non-CSXLite features, we
-                     expand the given code to walk the CSX-style abstract
-                     syntax tree.
+TypeChecking.java: 
 
-	SymbolTable.java:
+To implement type checking for non-CSXLite features, we expand the given code
+to walk the CSX-style abstract syntax tree. See ast.java for more information
+about CSX nodes, and the project description for the type checking rules
+enforced.
+
+SymbolTable.java:
+
 An ArrayList of parmInfo objects was added to the Scope class inside of the
 SymbolTable. This ArrayList is used to track the kind and type of the 
 parameters found in method declarations. This list is created while typechecking
@@ -30,7 +35,8 @@ SymbolInfo object for the method. Two methods were added to SymbolTable.java:
 	1. addParm(), which adds a parameter's parmInfo object to the above list.
 	2. getParms(), which returns the list of parmInfo objects.
 
-	SymbolInfo.java:
+SymbolInfo.java:
+
 Added to this file is an ArrayList of ArrayLists of parmInfo objects. This list
 of lists is only used by methods, which use it to store all the valid lists of
 parameters. This allows methods to be overloaded. In addition, the method
@@ -38,27 +44,120 @@ containsParms() is used to detect if the SymbolInfo object contains a matching
 list of parameters in its list of lists. This is used for detecting if over-
 loading is possible, and to check if a function call is valid.
 
-	Other relevant files: SymbolTable.java, parmInfo.java
+parmInfo.java:
 
-	parmInfo.java:
 This class defines objects that store the type and kind information of a given 
 parameter. This class also includes a function to compare two parameters, to
 see if they have the same type and kind. This function is used in in the
 SymbolInfo classes to detect matching parameters.
 
-
-TO DO::
- x create git repo 
- x divvy up code a la Unparsing.java of proj 3
- - Caela: callNode, fctCallNode, argsNode, returnNode + better error messages
- - debuggin:
-    should have error on line 48
-    char array and strings - countChars()
-		SHOULD have error on line			:
-    SHOULD NOT have error on line	: 144?
-
- 
 TESTS:: 
+
+Expected output for test.csx (provided in start up materials):
+
+test:
+     [echo] ------------------------------
+     [echo]      
+     [echo]  test.csx
+     [echo]      
+     [echo] ------------------------------
+     [echo]      
+     [java] 
+     [java] 
+     [java] Begin CSX compilation of test.csx.
+     [java] 
+     [java] CSX program parsed correctly.
+     [java] Error (line 6): i is already declared.
+     [java] Error (line 10): Initializer must be of type Integer
+     [java] Error (line 20): ten is already declared.
+     [java] Error (line 22): ar2 must have more than 0 elements.
+     [java] Error (line 30): Target of kind Value is not assignable.
+     [java] Error (line 33): Target of ++ can't be changed.
+     [java] Error (line 34): Target of -- can't be changed.
+     [java] Error (line 35): Target of ++ can't be changed.
+     [java] Error (line 36): Target of -- can't be changed.
+     [java] Error (line 37): Target of ++ can't be changed.
+     [java] Error (line 38): Target of -- can't be changed.
+     [java] Error (line 40): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 41): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 42): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 43): Arrays must be same length.
+     [java] Error (line 45): Incorrect assignment.
+     [java] Error (line 48): Character array and String must have same length.
+     [java] Error (line 50): Only arrays can be subscripted.
+     [java] Error (line 50): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 51): subscript value should be an integer or character, but Boolean was found instead.
+     [java] Error (line 56): Left operand of + must be arithmetic.
+     [java] Error (line 57): Operands of - must be scalar.
+     [java] Error (line 59): Operands of / must be scalar.
+     [java] Error (line 59): Left operand of / must be arithmetic.
+     [java] Error (line 60): operands of > must both be arithmetic or bothmust be boolean.
+     [java] Error (line 61): Operands of != must be scalar.
+     [java] Error (line 62): Operands of == must be scalar.
+     [java] Error (line 62): operands of == must both be arithmetic or bothmust be boolean.
+     [java] Error (line 63): Left operand of && must be boolean.
+     [java] Error (line 64): Left operand of || must be boolean.
+     [java] Error (line 65): Operands of && must be scalar.
+     [java] Error (line 65): Left operand of && must be boolean.
+     [java] Error (line 65): Right operand of && must be boolean.
+     [java] Error (line 66): Operand of ! must be Boolean.
+     [java] Error (line 67): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 76): Only int and char values may be read.
+     [java] Error (line 78): Can only print Integer, Boolean, and Character values, String, or arrays of Characters.
+     [java] Error (line 83): Missing return value of type Integer.
+     [java] Error (line 84): Return type mismatch; found Boolean but expected Integer.
+     [java] Error (line 87): f is already declared. Invalid overloading.
+     [java] Error (line 87): f must be of type Integer
+     [java] Error (line 88): Return type mismatch; found Integer but expected Void.
+     [java] Error (line 90): Return type mismatch; found Boolean but expected Void.
+     [java] Error (line 96): udef() isn't declared.
+     [java] Error (line 97): c requires a return value.
+     [java] Error (line 99): pp requires 3 parameters
+     [java] Error (line 100): pp requires 3 parameters
+     [java] Error (line 101): pp requires 3 parameters
+     [java] Error (line 102): f requires a return value.
+     [java] Error (line 103): In the call to pp parameter 2 has incorrect type.
+     [java] Error (line 104): In the call to pp parameter 1 has incorrect type.
+     [java] Error (line 104): In the call to pp parameter 2 has incorrect type.
+     [java] Error (line 105): In the call to pp parameter 3 has incorrect type.
+     [java] Error (line 111): ff requires a return value.
+     [java] Error (line 113): ff requires 3 parameters
+     [java] Error (line 114): Incorrect assignment.
+     [java] Error (line 115): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 116): ff requires 3 parameters
+     [java] Error (line 117): ff requires 3 parameters
+     [java] Error (line 118): In the call to ff parameter 2 has incorrect type.
+     [java] Error (line 119): In the call to ff parameter 1 has incorrect type.
+     [java] Error (line 119): In the call to ff parameter 2 has incorrect type.
+     [java] Error (line 120): In the call to ff parameter 3 has incorrect type.
+     [java] Error (line 123): i is already declared.
+     [java] Error (line 124): j is already declared.
+     [java] Error (line 124): i is already declared.
+     [java] Error (line 124): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 132): suspend() isn't declared.
+     [java] Error (line 138): Only int and char values may be read.
+     [java] Error (line 143): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 145): Operand of ! must be Boolean.
+     [java] Error (line 146): Left operand of + must be arithmetic.
+     [java] Error (line 148): local is not declared.
+     [java] Error (line 149): local is not declared.
+     [java] Error (line 149): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 151): operands of != must both be arithmetic or bothmust be boolean.
+     [java] Error (line 154): Can only cast ints, chars, and bools to int, char, or bool.
+     [java] Error (line 156): me label is already declared.
+     [java] Error (line 157): Label main out of scope.
+     [java] Error (line 158): Label L out of scope.
+     [java] Error (line 159): xxx isn't a valid label.
+     [java] Error (line 159): yyy isn't a valid label.
+     [java] Error (line 164): p requires 2 parameters
+     [java] Error (line 164): q() isn't declared.
+     [java] Error (line 167): None of the 2 definitions of f match the parameters in this call.
+     [java] 
+     [java] CSX compilation halted due to type errors.
+
+----------------------
+Additional test files:
+----------------------
  
 1. Test for overloading:
 

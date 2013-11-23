@@ -45,17 +45,139 @@
  <target name ="test" depends="compile">
     <echo message="------------------------------">
      </echo>
-    <echo message=" test.csx">
+    <echo message=" test0.csx">
      </echo>
     <echo message="------------------------------">
      </echo>
    <java classpath="bin;." classname="P4" fork="true" >
-    <arg value="test.csx">
+    <arg value="tests/test.csx">
     </arg>
    </java>
+<echo message="------------------------------">
+     </echo>
+    <echo message=" test1.csx">
+     </echo>
     <echo message="------------------------------">
      </echo>
-<!--    <echo message=" test2.lite">
+   <java classpath="bin;." classname="P4" fork="true" >
+    <arg value="tests/test1.csx">
+    </arg>
+   </java>
+<echo message="------------------------------">
+     </echo>
+    <echo message=" test2.csx">
+     </echo>
+    <echo message="------------------------------">
+     </echo>
+   <java classpath="bin;." classname="P4" fork="true" >
+    <arg value="tests/test2.csx">
+    </arg>
+   </java>
+<echo message="------------------------------">
+     </echo>
+    <echo message=" test3.csx">
+     </echo>
+    <echo message="------------------------------">
+     </echo>
+   <java classpath="bin;." classname="P4" fork="true" >
+    <arg value="tests/test3.csx">
+    </arg>
+   </java>
+<echo message="------------------------------">
+     </echo>
+    <echo message=" test4.csx">
+     </echo>
+    <echo message="------------------------------">
+     </echo>
+   <java classpath="bin;." classname="P4" fork="true" >
+    <arg value="tests/test4.csx">
+    </arg>
+   </java>
+<echo message="------------------------------">
+     </echo>
+    <echo message=" test5.csx">
+     </echo>
+    <echo message="------------------------------">
+     </echo>
+   <java classpath="bin;." classname="P4" fork="true" >
+    <arg value="tests/test5.csx">
+    </arg>
+   </java>
+<echo message="------------------------------">
+     </echo>
+    <echo message=" test6.csx">
+     </echo>
+    <echo message="------------------------------">
+     </echo>
+   <java classpath="bin;." classname="P4" fork="true" >
+    <arg value="tests/test6.csx">
+    </arg>
+   </java>
+<echo message="------------------------------">
+     </echo>
+    <echo message=" test7.csx">
+     </echo>
+    <echo message="------------------------------">
+     </echo>
+   <java classpath="bin;." classname="P4" fork="true" >
+    <arg value="tests/test7.csx">
+    </arg>
+   </java>
+<echo message="------------------------------">
+     </echo>
+    <echo message=" test8.csx">
+     </echo>
+    <echo message="------------------------------">
+     </echo>
+   <java classpath="bin;." classname="P4" fork="true" >
+    <arg value="tests/test8.csx">
+    </arg>
+   </java>
+<echo message="------------------------------">
+     </echo>
+    <echo message=" test9.csx">
+     </echo>
+    <echo message="------------------------------">
+     </echo>
+   <java classpath="bin;." classname="P4" fork="true" >
+    <arg value="tests/test9.csx">
+    </arg>
+   </java>
+<echo message="------------------------------">
+     </echo>
+    <echo message=" test10.csx">
+     </echo>
+    <echo message="------------------------------">
+     </echo>
+   <java classpath="bin;." classname="P4" fork="true" >
+    <arg value="tests/test10.csx">
+    </arg>
+   </java>
+<echo message="------------------------------">
+     </echo>
+    <echo message=" test11.csx">
+     </echo>
+    <echo message="------------------------------">
+     </echo>
+   <java classpath="bin;." classname="P4" fork="true" >
+    <arg value="tests/test11.csx">
+    </arg>
+   </java>
+<echo message="------------------------------">
+     </echo>
+    <echo message=" test12.csx">
+     </echo>
+    <echo message="------------------------------">
+     </echo>
+   <java classpath="bin;." classname="P4" fork="true" >
+    <arg value="tests/test12.csx">
+    </arg>
+   </java>
+
+<!--
+
+     </echo>
+    <echo message=" test2.lite">
      </echo>
 
      </echo>

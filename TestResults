@@ -1,0 +1,839 @@
+Buildfile: build.xml
+
+checkJLexNeeded:
+
+JLex:
+    [mkdir] Created dir: /afs/cs.wisc.edu/u/c/a/caela/private/cs536/proj4/startup/java/bin
+     [java] Processing first section -- user code.
+     [java] Processing second section -- JLex declarations.
+     [java] Processing third section -- lexical rules.
+     [java] Creating NFA machine representation.
+     [java] NFA comprised of 356 states.
+     [java] Creating DFA transition table.
+     [java] Working on DFA states...............................................................................................................................................
+     [java] Minimizing DFA transition table.
+     [java] 122 states after removal of redundant states.
+     [java] Outputting lexical analyzer code.
+     [move] Moving 1 file to /afs/cs.wisc.edu/u/c/a/caela/private/cs536/proj4/startup/java/src
+    [javac] Compiling 1 source file to /afs/cs.wisc.edu/u/c/a/caela/private/cs536/proj4/startup/java/bin
+
+checkCupNeeded:
+
+Cup:
+     [java] Opening files...
+     [java] Parsing specification from standard input...
+     [java] Checking specification...
+     [java] Building parse tables...
+     [java]   Computing non-terminal nullability...
+     [java]   Computing first sets...
+     [java]   Building state machine...
+     [java]   Filling in tables...
+     [java] *** Shift/Reduce conflict found in state #132
+     [java]   between stmt ::= rw_IF LPAREN expr RPAREN stmt (*) 
+     [java]   and     stmt ::= rw_IF LPAREN expr RPAREN stmt (*) rw_ELSE stmt 
+     [java]   under symbol rw_ELSE
+     [java]   Resolved in favor of shifting.
+     [java] 
+     [java]   Checking for non-reduced productions...
+     [java] Writing parser...
+     [java] Closing files...
+     [java] ------- CUP v0.10f Parser Generation Summary -------
+     [java]   0 errors and 1 warning
+     [java]   47 terminals, 24 non terminals, and 80 productions declared, 
+     [java]   producing 197 unique parse states.
+     [java]   0 terminals declared but not used.
+     [java]   0 non terminals declared but not used.
+     [java]   0 productions never reduced.
+     [java]   1 conflict detected (1 expected).
+     [java]   Code written to "parser.java", and "sym.java".
+     [java] ---------------------------------------------------- (v0.10f)
+     [move] Moving 1 file to /afs/cs.wisc.edu/u/c/a/caela/private/cs536/proj4/startup/java/src
+     [move] Moving 1 file to /afs/cs.wisc.edu/u/c/a/caela/private/cs536/proj4/startup/java/src
+
+checkASTNeeded:
+
+AST:
+    [javac] Compiling 1 source file to /afs/cs.wisc.edu/u/c/a/caela/private/cs536/proj4/startup/java/bin
+
+compile:
+    [javac] Compiling 46 source files to /afs/cs.wisc.edu/u/c/a/caela/private/cs536/proj4/startup/java/bin
+    [javac] Note: Some input files use unchecked or unsafe operations.
+    [javac] Note: Recompile with -Xlint:unchecked for details.
+
+test:
+     [echo] ------------------------------
+     [echo]      
+     [echo]  test0.csx
+     [echo]      
+     [echo] ------------------------------
+     [echo]      
+     [java] 
+     [java] 
+     [java] Begin CSX compilation of tests/test.csx.
+     [java] 
+     [java] CSX program parsed correctly.
+     [java] Error (line 6): i is already declared.
+     [java] Error (line 10): Initializer must be of type Integer
+     [java] Error (line 19): ten is already declared.
+     [java] Error (line 21): ar2 must have more than 0 elements.
+     [java] Error (line 29): Target of kind Value is not assignable.
+     [java] Error (line 32): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 33): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 34): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 35): Arrays must be same length.
+     [java] Error (line 37): Incorrect assignment.
+     [java] Error (line 40): Character array and String must have same length.
+     [java] Error (line 42): Only arrays can be subscripted.
+     [java] Error (line 42): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 43): subscript value should be an integer or character, but Boolean was found instead.
+     [java] Error (line 52): Only int and char values may be read.
+     [java] Error (line 54): Can only print Integer, Boolean, and Character values, String, or arrays of Characters.
+     [java] Error (line 59): Missing return value of type Integer.
+     [java] Error (line 60): Return type mismatch; found Boolean but expected Integer.
+     [java] Error (line 63): f is already declared. Invalid overloading.
+     [java] Error (line 63): f must be of type Integer
+     [java] Error (line 64): Return type mismatch; found Integer but expected Void.
+     [java] Error (line 66): Return type mismatch; found Boolean but expected Void.
+     [java] Error (line 72): udef() isn't declared.
+     [java] Error (line 73): c requires a return value.
+     [java] Error (line 75): pp requires 3 parameters
+     [java] Error (line 76): pp requires 3 parameters
+     [java] Error (line 77): pp requires 3 parameters
+     [java] Error (line 78): f requires a return value.
+     [java] Error (line 79): In the call to pp parameter 2 has incorrect type.
+     [java] Error (line 80): In the call to pp parameter 1 has incorrect type.
+     [java] Error (line 80): In the call to pp parameter 2 has incorrect type.
+     [java] Error (line 81): In the call to pp parameter 3 has incorrect type.
+     [java] Error (line 87): ff requires a return value.
+     [java] Error (line 89): ff requires 3 parameters
+     [java] Error (line 90): Incorrect assignment.
+     [java] Error (line 91): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 92): ff requires 3 parameters
+     [java] Error (line 93): ff requires 3 parameters
+     [java] Error (line 94): In the call to ff parameter 2 has incorrect type.
+     [java] Error (line 95): In the call to ff parameter 1 has incorrect type.
+     [java] Error (line 95): In the call to ff parameter 2 has incorrect type.
+     [java] Error (line 96): In the call to ff parameter 3 has incorrect type.
+     [java] Error (line 99): i is already declared.
+     [java] Error (line 101): j is already declared.
+     [java] Error (line 102): i is already declared.
+     [java] Error (line 103): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 113): suspend() isn't declared.
+     [java] Error (line 119): b is not declared.
+     [java] Error (line 119): Only int and char values may be read.
+     [java] Error (line 121): b is not declared.
+     [java] Error (line 124): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 126): Operand of ! must be Boolean.
+     [java] Error (line 127): Left operand of + must be arithmetic.
+     [java] Error (line 128): b is not declared.
+     [java] Error (line 129): b is not declared.
+     [java] Error (line 129): b is not declared.
+     [java] Error (line 129): local is not declared.
+     [java] Error (line 129): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 130): local is not declared.
+     [java] Error (line 130): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 132): operands of != must both be arithmetic or bothmust be boolean.
+     [java] Error (line 135): Can only cast ints, chars, and bools to int, char, or bool.
+     [java] Error (line 137): me label is already declared.
+     [java] Error (line 138): Label main out of scope.
+     [java] Error (line 139): Label L out of scope.
+     [java] Error (line 140): xxx isn't a valid label.
+     [java] Error (line 140): yyy isn't a valid label.
+     [java] Error (line 145): p requires 2 parameters
+     [java] Error (line 146): q() isn't declared.
+     [java] Error (line 150): None of the 2 definitions of f match the parameters in this call.
+     [java] 
+     [java] CSX compilation halted due to type errors.
+     [echo] ------------------------------
+     [echo]      
+     [echo]  test1.csx
+     [echo]      
+     [echo] ------------------------------
+     [echo]      
+     [java] 
+     [java] 
+     [java] Begin CSX compilation of tests/test1.csx.
+     [java] 
+     [java] CSX program parsed correctly.
+     [java] Error (line 13): foo() isn't declared.
+     [java] Error (line 16): r isn't a valid label.
+     [java] Error (line 19): r isn't a valid label.
+     [java] Error (line 22): Operands of != must be scalar.
+     [java] Error (line 22): operands of != must both be arithmetic or bothmust be boolean.
+     [java] Error (line 27): xxx is not declared.
+     [java] Error (line 27): xxx is not declared.
+     [java] Error (line 28): undecl is not declared.
+     [java] Error (line 29): yyy is not declared.
+     [java] Error (line 29): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 30): a is not declared.
+     [java] Error (line 30): b is not declared.
+     [java] Error (line 30): c is not declared.
+     [java] Error (line 30): d is not declared.
+     [java] Error (line 30): y is not declared.
+     [java] Error (line 30): x is not declared.
+     [java] Error (line 31): g is not declared.
+     [java] Error (line 31): In the call to Testing parameter 1 has incorrect type.
+     [java] Error (line 35): b is not declared.
+     [java] Error (line 35): Only int and char values may be read.
+     [java] Error (line 38): a is not declared.
+     [java] Error (line 38): a is not declared.
+     [java] Error (line 38): Operand of ! must be Boolean.
+     [java] Error (line 38): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 39): a is not declared.
+     [java] Error (line 39): a is not declared.
+     [java] Error (line 39): a is not declared.
+     [java] Error (line 39): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 40): a is not declared.
+     [java] Error (line 40): a is not declared.
+     [java] Error (line 40): a is not declared.
+     [java] Error (line 40): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 41): a is not declared.
+     [java] Error (line 41): a is not declared.
+     [java] Error (line 41): a is not declared.
+     [java] Error (line 41): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 42): a is not declared.
+     [java] Error (line 42): a is not declared.
+     [java] Error (line 42): a is not declared.
+     [java] Error (line 42): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 43): a is not declared.
+     [java] Error (line 43): a is not declared.
+     [java] Error (line 43): a is not declared.
+     [java] Error (line 43): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 44): a is not declared.
+     [java] Error (line 44): a is not declared.
+     [java] Error (line 44): a is not declared.
+     [java] Error (line 44): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 45): a is not declared.
+     [java] Error (line 45): a is not declared.
+     [java] Error (line 45): a is not declared.
+     [java] Error (line 45): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 46): a is not declared.
+     [java] Error (line 46): a is not declared.
+     [java] Error (line 46): a is not declared.
+     [java] Error (line 46): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 48): a is not declared.
+     [java] Error (line 48): Can only print Integer, Boolean, and Character values, String, or arrays of Characters.
+     [java] Error (line 49): a() isn't declared.
+     [java] 
+     [java] CSX compilation halted due to type errors.
+     [echo] ------------------------------
+     [echo]      
+     [echo]  test2.csx
+     [echo]      
+     [echo] ------------------------------
+     [echo]      
+     [java] 
+     [java] 
+     [java] Begin CSX compilation of tests/test2.csx.
+     [java] 
+     [java] CSX program parsed correctly.
+     [java] Error (line 6): field1 is already declared.
+     [java] Error (line 8): p1 is already declared.
+     [java] Error (line 8): p2 is already declared.
+     [java] Error (line 10): Testing is already declared.
+     [java] Error (line 11): p1 label is already declared.
+     [java] Error (line 17): S is already declared.
+     [java] Error (line 19): K label is already declared.
+     [java] Error (line 31): L label is already declared.
+     [java] Error (line 32): Label L out of scope.
+     [java] Error (line 37): Tests is already declared. Invalid overloading.
+     [java] Error (line 41): field1 is already declared.
+     [java] Error (line 41): field1 must be of type Integer
+     [java] Error (line 43): a is already declared.
+     [java] 
+     [java] CSX compilation halted due to type errors.
+     [echo] ------------------------------
+     [echo]      
+     [echo]  test3.csx
+     [echo]      
+     [echo] ------------------------------
+     [echo]      
+     [java] 
+     [java] 
+     [java] Begin CSX compilation of tests/test3.csx.
+     [java] 
+     [java] CSX program parsed correctly.
+     [java] Error (line 8): bad1 must have more than 0 elements.
+     [java] Error (line 9): bad2 must have more than 0 elements.
+     [java] Error (line 16): Initializer must be of type Integer
+     [java] Error (line 17): Initializer must be of type Integer
+     [java] Error (line 19): Initial value must be scalar
+     [java] Error (line 21): Initializer must be of type Character
+     [java] Error (line 23): Initializer must be of type Character
+     [java] Error (line 25): Initial value must be scalar
+     [java] Error (line 26): Initial value must be scalar
+     [java] Error (line 28): Initializer must be of type Boolean
+     [java] Error (line 29): Initializer must be of type Boolean
+     [java] Error (line 32): Initial value must be scalar
+     [java] Error (line 38): Only scalars can be made constants
+     [java] Error (line 39): Only scalars can be made constants
+     [java] Error (line 65): Initializer must be of type Integer
+     [java] Error (line 65): Initial value must be scalar
+     [java] Error (line 66): Initializer must be of type Character
+     [java] Error (line 66): Initial value must be scalar
+     [java] Error (line 67): Initializer must be of type Boolean
+     [java] Error (line 67): Initial value must be scalar
+     [java] Error (line 68): Only scalars can be made constants
+     [java] Error (line 88): Initializer must be of type Integer
+     [java] Error (line 88): Initial value must be scalar
+     [java] Error (line 89): Initializer must be of type Character
+     [java] Error (line 89): Initial value must be scalar
+     [java] Error (line 90): Initializer must be of type Boolean
+     [java] Error (line 90): Initial value must be scalar
+     [java] Error (line 92): Initial value must be scalar
+     [java] Error (line 93): Initial value must be scalar
+     [java] Error (line 94): Initial value must be scalar
+     [java] 
+     [java] CSX compilation halted due to type errors.
+     [echo] ------------------------------
+     [echo]      
+     [echo]  test4.csx
+     [echo]      
+     [echo] ------------------------------
+     [echo]      
+     [java] 
+     [java] 
+     [java] Begin CSX compilation of tests/test4.csx.
+     [java] 
+     [java] CSX program parsed correctly.
+     [java] Error (line 28): Incorrect assignment.
+     [java] Error (line 29): Incorrect assignment.
+     [java] Error (line 30): Incorrect assignment.
+     [java] Error (line 32): Return type mismatch; found Unknown but expected Integer.
+     [java] Error (line 36): Incorrect assignment.
+     [java] Error (line 37): Incorrect assignment.
+     [java] Error (line 38): Incorrect assignment.
+     [java] Error (line 39): Incorrect assignment.
+     [java] Error (line 40): Incorrect assignment.
+     [java] Error (line 41): Incorrect assignment.
+     [java] Error (line 42): Incorrect assignment.
+     [java] Error (line 44): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 45): Incorrect assignment.
+     [java] Error (line 46): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 47): Incorrect assignment.
+     [java] Error (line 48): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 49): Incorrect assignment.
+     [java] Error (line 58): Target of kind Value is not assignable.
+     [java] Error (line 61): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 62): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 64): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 65): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 70): Arrays must be same length.
+     [java] Error (line 71): Incorrect assignment.
+     [java] Error (line 73): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 75): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 76): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 78): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 83): Arrays must be same length.
+     [java] Error (line 84): Incorrect assignment.
+     [java] Error (line 86): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 87): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 88): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 89): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 90): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 97): Arrays must be same length.
+     [java] Error (line 99): Character array and String must have same length.
+     [java] Error (line 100): Character array and String must have same length.
+     [java] Error (line 102): Incorrect assignment.
+     [java] Error (line 104): Target of kind Method is not assignable.
+     [java] Error (line 105): Target of kind Method is not assignable.
+     [java] Error (line 106): Target of kind Method is not assignable.
+     [java] Error (line 107): Target of kind Method is not assignable.
+     [java] Error (line 108): Target of kind Method is not assignable.
+     [java] Error (line 109): Target of kind Method is not assignable.
+     [java] Error (line 110): Target of kind Method is not assignable.
+     [java] Error (line 111): Target of kind Method is not assignable.
+     [java] Error (line 113): Incorrect assignment.
+     [java] Error (line 114): Incorrect assignment.
+     [java] Error (line 115): Incorrect assignment.
+     [java] Error (line 117): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 118): Target of kind Method is not assignable.
+     [java] Error (line 119): Target of kind Method is not assignable.
+     [java] Error (line 120): Incorrect assignment.
+     [java] Error (line 121): Target of kind Method is not assignable.
+     [java] Error (line 122): Target of kind Method is not assignable.
+     [java] Error (line 123): Target of kind Method is not assignable.
+     [java] Error (line 124): Target of kind Method is not assignable.
+     [java] Error (line 130): Target of kind HiddenLabel is not assignable.
+     [java] Error (line 131): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 132): Target of kind HiddenLabel is not assignable.
+     [java] Error (line 133): Target of kind Method is not assignable.
+     [java] Error (line 134): Target of kind HiddenLabel is not assignable.
+     [java] 
+     [java] CSX compilation halted due to type errors.
+     [echo] ------------------------------
+     [echo]      
+     [echo]  test5.csx
+     [echo]      
+     [echo] ------------------------------
+     [echo]      
+     [java] 
+     [java] 
+     [java] Begin CSX compilation of tests/test5.csx.
+     [java] 
+     [java] CSX program parsed correctly.
+     [java] Error (line 33): Operands of + must be scalar.
+     [java] Error (line 33): Left operand of + must be arithmetic.
+     [java] Error (line 33): Right operand of + must be arithmetic.
+     [java] Error (line 34): Operands of - must be scalar.
+     [java] Error (line 34): Left operand of - must be arithmetic.
+     [java] Error (line 34): Right operand of - must be arithmetic.
+     [java] Error (line 35): Operands of * must be scalar.
+     [java] Error (line 35): Left operand of * must be arithmetic.
+     [java] Error (line 35): Right operand of * must be arithmetic.
+     [java] Error (line 36): Operands of / must be scalar.
+     [java] Error (line 36): Left operand of / must be arithmetic.
+     [java] Error (line 36): Right operand of / must be arithmetic.
+     [java] Error (line 38): Operands of && must be scalar.
+     [java] Error (line 38): Left operand of && must be boolean.
+     [java] Error (line 38): Right operand of && must be boolean.
+     [java] Error (line 39): Operands of || must be scalar.
+     [java] Error (line 39): Left operand of || must be boolean.
+     [java] Error (line 39): Right operand of || must be boolean.
+     [java] Error (line 41): Operands of == must be scalar.
+     [java] Error (line 41): operands of == must both be arithmetic or bothmust be boolean.
+     [java] Error (line 42): Operands of == must be scalar.
+     [java] Error (line 42): operands of == must both be arithmetic or bothmust be boolean.
+     [java] Error (line 43): Operands of != must be scalar.
+     [java] Error (line 43): operands of != must both be arithmetic or bothmust be boolean.
+     [java] Error (line 44): Operands of != must be scalar.
+     [java] Error (line 44): operands of != must both be arithmetic or bothmust be boolean.
+     [java] Error (line 45): Operands of < must be scalar.
+     [java] Error (line 45): operands of < must both be arithmetic or bothmust be boolean.
+     [java] Error (line 46): Operands of > must be scalar.
+     [java] Error (line 46): operands of > must both be arithmetic or bothmust be boolean.
+     [java] Error (line 47): Operands of <= must be scalar.
+     [java] Error (line 47): operands of <= must both be arithmetic or bothmust be boolean.
+     [java] Error (line 48): Operands of <= must be scalar.
+     [java] Error (line 48): operands of <= must both be arithmetic or bothmust be boolean.
+     [java] Error (line 49): Operands of >= must be scalar.
+     [java] Error (line 49): operands of >= must both be arithmetic or bothmust be boolean.
+     [java] Error (line 50): Operands of >= must be scalar.
+     [java] Error (line 50): operands of >= must both be arithmetic or bothmust be boolean.
+     [java] Error (line 67): Right operand of + must be arithmetic.
+     [java] Error (line 68): Left operand of + must be arithmetic.
+     [java] Error (line 69): Operands of + must be scalar.
+     [java] Error (line 70): Operands of + must be scalar.
+     [java] Error (line 72): Right operand of + must be arithmetic.
+     [java] Error (line 73): Left operand of + must be arithmetic.
+     [java] Error (line 74): Left operand of + must be arithmetic.
+     [java] Error (line 74): Right operand of + must be arithmetic.
+     [java] Error (line 75): Left operand of + must be arithmetic.
+     [java] Error (line 76): Right operand of + must be arithmetic.
+     [java] Error (line 80): Operands of + must be scalar.
+     [java] Error (line 81): Operands of + must be scalar.
+     [java] Error (line 82): Operands of + must be scalar.
+     [java] Error (line 82): Left operand of + must be arithmetic.
+     [java] Error (line 82): Right operand of + must be arithmetic.
+     [java] Error (line 88): Right operand of - must be arithmetic.
+     [java] Error (line 89): Left operand of - must be arithmetic.
+     [java] Error (line 90): Operands of - must be scalar.
+     [java] Error (line 91): Operands of - must be scalar.
+     [java] Error (line 93): Right operand of - must be arithmetic.
+     [java] Error (line 94): Left operand of - must be arithmetic.
+     [java] Error (line 95): Left operand of - must be arithmetic.
+     [java] Error (line 95): Right operand of - must be arithmetic.
+     [java] Error (line 96): Left operand of - must be arithmetic.
+     [java] Error (line 97): Right operand of - must be arithmetic.
+     [java] Error (line 101): Operands of - must be scalar.
+     [java] Error (line 102): Operands of - must be scalar.
+     [java] Error (line 103): Operands of - must be scalar.
+     [java] Error (line 103): Left operand of - must be arithmetic.
+     [java] Error (line 103): Right operand of - must be arithmetic.
+     [java] Error (line 109): Right operand of * must be arithmetic.
+     [java] Error (line 110): Left operand of * must be arithmetic.
+     [java] Error (line 111): Operands of * must be scalar.
+     [java] Error (line 112): Operands of * must be scalar.
+     [java] Error (line 114): Right operand of * must be arithmetic.
+     [java] Error (line 115): Left operand of * must be arithmetic.
+     [java] Error (line 116): Left operand of * must be arithmetic.
+     [java] Error (line 116): Right operand of * must be arithmetic.
+     [java] Error (line 117): Left operand of * must be arithmetic.
+     [java] Error (line 118): Right operand of * must be arithmetic.
+     [java] Error (line 122): Operands of * must be scalar.
+     [java] Error (line 123): Operands of * must be scalar.
+     [java] Error (line 124): Operands of * must be scalar.
+     [java] Error (line 124): Left operand of * must be arithmetic.
+     [java] Error (line 124): Right operand of * must be arithmetic.
+     [java] Error (line 130): Right operand of / must be arithmetic.
+     [java] Error (line 131): Left operand of / must be arithmetic.
+     [java] Error (line 132): Operands of / must be scalar.
+     [java] Error (line 133): Operands of / must be scalar.
+     [java] Error (line 135): Right operand of / must be arithmetic.
+     [java] Error (line 136): Left operand of / must be arithmetic.
+     [java] Error (line 137): Left operand of / must be arithmetic.
+     [java] Error (line 137): Right operand of / must be arithmetic.
+     [java] Error (line 138): Left operand of / must be arithmetic.
+     [java] Error (line 139): Right operand of / must be arithmetic.
+     [java] Error (line 143): Operands of / must be scalar.
+     [java] Error (line 144): Operands of / must be scalar.
+     [java] Error (line 145): Operands of / must be scalar.
+     [java] Error (line 145): Left operand of / must be arithmetic.
+     [java] Error (line 145): Right operand of / must be arithmetic.
+     [java] Error (line 147): Right operand of && must be boolean.
+     [java] Error (line 148): Left operand of && must be boolean.
+     [java] Error (line 149): Right operand of && must be boolean.
+     [java] Error (line 150): Left operand of && must be boolean.
+     [java] Error (line 153): Operands of && must be scalar.
+     [java] Error (line 154): Operands of && must be scalar.
+     [java] Error (line 155): Left operand of && must be boolean.
+     [java] Error (line 155): Right operand of && must be boolean.
+     [java] Error (line 156): Left operand of && must be boolean.
+     [java] Error (line 157): Right operand of && must be boolean.
+     [java] Error (line 159): Right operand of && must be boolean.
+     [java] Error (line 160): Left operand of && must be boolean.
+     [java] Error (line 161): Left operand of && must be boolean.
+     [java] Error (line 161): Right operand of && must be boolean.
+     [java] Error (line 162): Left operand of && must be boolean.
+     [java] Error (line 162): Right operand of && must be boolean.
+     [java] Error (line 163): Left operand of && must be boolean.
+     [java] Error (line 163): Right operand of && must be boolean.
+     [java] Error (line 164): Operands of && must be scalar.
+     [java] Error (line 165): Operands of && must be scalar.
+     [java] Error (line 166): Operands of && must be scalar.
+     [java] Error (line 166): Left operand of && must be boolean.
+     [java] Error (line 166): Right operand of && must be boolean.
+     [java] Error (line 168): Right operand of || must be boolean.
+     [java] Error (line 169): Left operand of || must be boolean.
+     [java] Error (line 170): Right operand of || must be boolean.
+     [java] Error (line 171): Left operand of || must be boolean.
+     [java] Error (line 174): Operands of || must be scalar.
+     [java] Error (line 175): Operands of || must be scalar.
+     [java] Error (line 176): Left operand of || must be boolean.
+     [java] Error (line 176): Right operand of || must be boolean.
+     [java] Error (line 177): Left operand of || must be boolean.
+     [java] Error (line 178): Right operand of || must be boolean.
+     [java] Error (line 180): Right operand of || must be boolean.
+     [java] Error (line 181): Left operand of || must be boolean.
+     [java] Error (line 182): Left operand of || must be boolean.
+     [java] Error (line 182): Right operand of || must be boolean.
+     [java] Error (line 183): Left operand of || must be boolean.
+     [java] Error (line 183): Right operand of || must be boolean.
+     [java] Error (line 184): Left operand of || must be boolean.
+     [java] Error (line 184): Right operand of || must be boolean.
+     [java] Error (line 185): Operands of || must be scalar.
+     [java] Error (line 186): Operands of || must be scalar.
+     [java] Error (line 187): Operands of || must be scalar.
+     [java] Error (line 187): Left operand of || must be boolean.
+     [java] Error (line 187): Right operand of || must be boolean.
+     [java] Error (line 190): operands of == must both be arithmetic or bothmust be boolean.
+     [java] Error (line 191): operands of == must both be arithmetic or bothmust be boolean.
+     [java] Error (line 193): operands of == must both be arithmetic or bothmust be boolean.
+     [java] Error (line 194): operands of == must both be arithmetic or bothmust be boolean.
+     [java] Error (line 198): Operands of == must be scalar.
+     [java] Error (line 199): Operands of == must be scalar.
+     [java] Error (line 200): Operands of == must be scalar.
+     [java] Error (line 200): operands of == must both be arithmetic or bothmust be boolean.
+     [java] Error (line 203): operands of != must both be arithmetic or bothmust be boolean.
+     [java] Error (line 204): operands of != must both be arithmetic or bothmust be boolean.
+     [java] Error (line 206): operands of != must both be arithmetic or bothmust be boolean.
+     [java] Error (line 207): operands of != must both be arithmetic or bothmust be boolean.
+     [java] Error (line 211): Operands of != must be scalar.
+     [java] Error (line 212): Operands of != must be scalar.
+     [java] Error (line 213): Operands of != must be scalar.
+     [java] Error (line 213): operands of != must both be arithmetic or bothmust be boolean.
+     [java] Error (line 216): operands of < must both be arithmetic or bothmust be boolean.
+     [java] Error (line 217): operands of < must both be arithmetic or bothmust be boolean.
+     [java] Error (line 219): operands of < must both be arithmetic or bothmust be boolean.
+     [java] Error (line 220): operands of < must both be arithmetic or bothmust be boolean.
+     [java] Error (line 224): Operands of < must be scalar.
+     [java] Error (line 225): Operands of < must be scalar.
+     [java] Error (line 226): Operands of < must be scalar.
+     [java] Error (line 226): operands of < must both be arithmetic or bothmust be boolean.
+     [java] Error (line 229): operands of > must both be arithmetic or bothmust be boolean.
+     [java] Error (line 230): operands of > must both be arithmetic or bothmust be boolean.
+     [java] Error (line 232): operands of > must both be arithmetic or bothmust be boolean.
+     [java] Error (line 233): operands of > must both be arithmetic or bothmust be boolean.
+     [java] Error (line 237): Operands of > must be scalar.
+     [java] Error (line 238): Operands of > must be scalar.
+     [java] Error (line 239): Operands of > must be scalar.
+     [java] Error (line 239): operands of > must both be arithmetic or bothmust be boolean.
+     [java] Error (line 242): operands of <= must both be arithmetic or bothmust be boolean.
+     [java] Error (line 243): operands of <= must both be arithmetic or bothmust be boolean.
+     [java] Error (line 245): operands of <= must both be arithmetic or bothmust be boolean.
+     [java] Error (line 246): operands of <= must both be arithmetic or bothmust be boolean.
+     [java] Error (line 250): Operands of <= must be scalar.
+     [java] Error (line 251): Operands of <= must be scalar.
+     [java] Error (line 252): Operands of <= must be scalar.
+     [java] Error (line 252): operands of <= must both be arithmetic or bothmust be boolean.
+     [java] Error (line 255): operands of >= must both be arithmetic or bothmust be boolean.
+     [java] Error (line 256): operands of >= must both be arithmetic or bothmust be boolean.
+     [java] Error (line 258): operands of >= must both be arithmetic or bothmust be boolean.
+     [java] Error (line 259): operands of >= must both be arithmetic or bothmust be boolean.
+     [java] Error (line 263): Operands of >= must be scalar.
+     [java] Error (line 264): Operands of >= must be scalar.
+     [java] Error (line 265): Operands of >= must be scalar.
+     [java] Error (line 265): operands of >= must both be arithmetic or bothmust be boolean.
+     [java] Error (line 267): Operand of ! must be Boolean.
+     [java] Error (line 268): Operand of ! must be Boolean.
+     [java] Error (line 272): Operand of ! must be Boolean.
+     [java] Error (line 273): Operand of ! must be Boolean.
+     [java] 
+     [java] CSX compilation halted due to type errors.
+     [echo] ------------------------------
+     [echo]      
+     [echo]  test6.csx
+     [echo]      
+     [echo] ------------------------------
+     [echo]      
+     [java] 
+     [java] 
+     [java] Begin CSX compilation of tests/test6.csx.
+     [java] 
+     [java] CSX program parsed correctly.
+     [java] Error (line 11): Only int and char values may be read.
+     [java] Error (line 17): Only int and char values may be read.
+     [java] Error (line 18): Can only print Integer, Boolean, and Character values, String, or arrays of Characters.
+     [java] Error (line 18): Can only print Integer, Boolean, and Character values, String, or arrays of Characters.
+     [java] Error (line 18): Can only print Integer, Boolean, and Character values, String, or arrays of Characters.
+     [java] Error (line 32): Only int and char values may be read.
+     [java] Error (line 33): Only int and char values may be read.
+     [java] Error (line 34): Only int and char values may be read.
+     [java] Error (line 35): Only int and char values may be read.
+     [java] Error (line 42): Can only print Integer, Boolean, and Character values, String, or arrays of Characters.
+     [java] Error (line 42): Can only print Integer, Boolean, and Character values, String, or arrays of Characters.
+     [java] 
+     [java] CSX compilation halted due to type errors.
+     [echo] ------------------------------
+     [echo]      
+     [echo]  test7.csx
+     [echo]      
+     [echo] ------------------------------
+     [echo]      
+     [java] 
+     [java] 
+     [java] Begin CSX compilation of tests/test7.csx.
+     [java] 
+     [java] CSX program parsed correctly.
+     [java] Error (line 11): The control expression of an if must be a bool.
+     [java] Error (line 13): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 15): Return type mismatch; found Unknown but expected Boolean.
+     [java] Error (line 16): The control expression of an if must be a bool.
+     [java] Error (line 18): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 19): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 21): Return type mismatch; found Unknown but expected Boolean.
+     [java] Error (line 26): Return type mismatch; found Unknown but expected Boolean.
+     [java] Error (line 29): ii is not declared.
+     [java] Error (line 29): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 30): Return type mismatch; found Unknown but expected Boolean.
+     [java] Error (line 33): Condition must be a scalar boolean.
+     [java] Error (line 35): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 37): Return type mismatch; found Unknown but expected Boolean.
+     [java] Error (line 38): Condition must be a scalar boolean.
+     [java] Error (line 40): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 41): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 43): Return type mismatch; found Unknown but expected Boolean.
+     [java] Error (line 48): Return type mismatch; found Unknown but expected Boolean.
+     [java] Error (line 50): Return type mismatch; found Unknown but expected Boolean.
+     [java] Error (line 54): The control expression of an if must be a bool.
+     [java] Error (line 56): The control expression of an if must be a bool.
+     [java] Error (line 58): The control expression of an if must be a bool.
+     [java] Error (line 61): Condition must be a scalar boolean.
+     [java] Error (line 63): Condition must be a scalar boolean.
+     [java] Error (line 65): Condition must be a scalar boolean.
+     [java] Error (line 72): The control expression of an if must be a bool.
+     [java] Error (line 74): The control expression of an if must be a bool.
+     [java] Error (line 78): The control expression of an if must be a bool.
+     [java] Error (line 80): The control expression of an if must be a bool.
+     [java] Error (line 86): The control expression of an if must be a bool.
+     [java] Error (line 90): operands of < must both be arithmetic or bothmust be boolean.
+     [java] Error (line 92): The control expression of an if must be a bool.
+     [java] Error (line 94): Right operand of * must be arithmetic.
+     [java] Error (line 94): The control expression of an if must be a bool.
+     [java] Error (line 97): Condition must be a scalar boolean.
+     [java] Error (line 98): l isn't a valid label.
+     [java] Error (line 99): Condition must be a scalar boolean.
+     [java] Error (line 100): l isn't a valid label.
+     [java] Error (line 102): L isn't a valid label.
+     [java] Error (line 103): L isn't a valid label.
+     [java] Error (line 108): Label b out of scope.
+     [java] Error (line 109): Label main out of scope.
+     [java] Error (line 111): Condition must be a scalar boolean.
+     [java] Error (line 118): Label S out of scope.
+     [java] Error (line 119): Label S out of scope.
+     [java] Error (line 122): Label L out of scope.
+     [java] Error (line 123): Label L out of scope.
+     [java] Error (line 125): Condition must be a scalar boolean.
+     [java] Error (line 128): Label L out of scope.
+     [java] Error (line 129): Label L out of scope.
+     [java] Error (line 131): Condition must be a scalar boolean.
+     [java] Error (line 133): Label D out of scope.
+     [java] Error (line 134): Label D out of scope.
+     [java] Error (line 136): Condition must be a scalar boolean.
+     [java] Error (line 138): Condition must be a scalar boolean.
+     [java] Error (line 142): operands of < must both be arithmetic or bothmust be boolean.
+     [java] Error (line 144): Condition must be a scalar boolean.
+     [java] Error (line 146): Right operand of * must be arithmetic.
+     [java] Error (line 146): Condition must be a scalar boolean.
+     [java] Error (line 148): Condition must be a scalar boolean.
+     [java] Error (line 151): The control expression of an if must be a bool.
+     [java] 
+     [java] CSX compilation halted due to type errors.
+     [echo] ------------------------------
+     [echo]      
+     [echo]  test8.csx
+     [echo]      
+     [echo] ------------------------------
+     [echo]      
+     [java] 
+     [java] 
+     [java] Begin CSX compilation of tests/test8.csx.
+     [java] 
+     [java] CSX program parsed correctly.
+     [java] Error (line 11): Missing return value of type Integer.
+     [java] Error (line 12): Return type mismatch; found Unknown but expected Integer.
+     [java] Error (line 13): f1 requires a return value.
+     [java] Error (line 14): f3() is not declared.
+     [java] Error (line 15): Return type mismatch; found Unknown but expected Integer.
+     [java] Error (line 17): Return type mismatch; found Unknown but expected Integer.
+     [java] Error (line 21): Return type mismatch; found Unknown but expected Character.
+     [java] Error (line 23): Return type mismatch; found Error but expected Character.
+     [java] Error (line 27): Return type mismatch; found Unknown but expected Character.
+     [java] Error (line 29): Return type mismatch; found Unknown but expected Character.
+     [java] Error (line 31): Return type mismatch; found Unknown but expected Character.
+     [java] Error (line 36): Return type mismatch; found Unknown but expected Boolean.
+     [java] Error (line 37): Return type mismatch; found Unknown but expected Boolean.
+     [java] Error (line 40): Condition must be a scalar boolean.
+     [java] Error (line 41): Operands of != must be scalar.
+     [java] Error (line 42): Return type mismatch; found Unknown but expected Boolean.
+     [java] Error (line 44): Return type mismatch; found Unknown but expected Boolean.
+     [java] Error (line 49): Return type mismatch; found Unknown but expected Void.
+     [java] Error (line 50): f4 is called as a procedure and must therefore return void.
+     [java] Error (line 50): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 55): Return type mismatch; found Unknown but expected Integer.
+     [java] Error (line 56): Return type mismatch; found Unknown but expected Integer.
+     [java] Error (line 57): Return type mismatch; found Unknown but expected Integer.
+     [java] Error (line 58): Return type mismatch; found Unknown but expected Integer.
+     [java] Error (line 59): Return type mismatch; found Unknown but expected Integer.
+     [java] Error (line 64): Return type mismatch; found Unknown but expected Character.
+     [java] Error (line 67): Return type mismatch; found Unknown but expected Character.
+     [java] Error (line 69): Return type mismatch; found Error but expected Character.
+     [java] Error (line 71): Return type mismatch; found Unknown but expected Character.
+     [java] Error (line 72): Return type mismatch; found Unknown but expected Character.
+     [java] Error (line 75): Return type mismatch; found Unknown but expected Character.
+     [java] Error (line 79): Return type mismatch; found Unknown but expected Boolean.
+     [java] Error (line 80): Return type mismatch; found Unknown but expected Boolean.
+     [java] Error (line 81): Return type mismatch; found Unknown but expected Boolean.
+     [java] Error (line 82): Return type mismatch; found Unknown but expected Boolean.
+     [java] Error (line 83): Return type mismatch; found Unknown but expected Boolean.
+     [java] Error (line 89): f4 requires a return value.
+     [java] Error (line 90): f2 is not a method.
+     [java] Error (line 90): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 91): Return type mismatch; found Unknown but expected Void.
+     [java] Error (line 95): g1 must be of type Integer
+     [java] Error (line 99): f3 is already declared. Invalid overloading.
+     [java] Error (line 99): f3 must be of type Boolean
+     [java] Error (line 108): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 109): Incorrect assignment.
+     [java] Error (line 110): Incorrect assignment.
+     [java] Error (line 111): Incorrect assignment.
+     [java] Error (line 117): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 119): In the call to g2 parameter 3 has incorrect type.
+     [java] Error (line 121): In the call to g3 parameter 1 has incorrect type.
+     [java] Error (line 121): In the call to g3 parameter 2 has incorrect type.
+     [java] Error (line 121): In the call to g3 parameter 3 has incorrect type.
+     [java] Error (line 123): g4 requires 2 parameters
+     [java] Error (line 124): g4 requires 2 parameters
+     [java] Error (line 125): g4 requires 2 parameters
+     [java] Error (line 126): g4 requires 2 parameters
+     [java] Error (line 127): x is not declared.
+     [java] Error (line 127): y is not declared.
+     [java] Error (line 127): z is not declared.
+     [java] Error (line 127): g4 requires 2 parameters
+     [java] Error (line 129): In the call to g2 parameter 1 has incorrect type.
+     [java] Error (line 130): In the call to g2 parameter 1 has incorrect type.
+     [java] Error (line 130): In the call to g2 parameter 2 has incorrect type.
+     [java] Error (line 131): In the call to g2 parameter 1 has incorrect type.
+     [java] Error (line 131): In the call to g2 parameter 2 has incorrect type.
+     [java] Error (line 131): In the call to g2 parameter 3 has incorrect type.
+     [java] Error (line 132): In the call to g2 parameter 1 has incorrect type.
+     [java] Error (line 132): In the call to g2 parameter 2 has incorrect type.
+     [java] Error (line 132): In the call to g2 parameter 3 has incorrect type.
+     [java] Error (line 135): main requires 0 parameters
+     [java] 
+     [java] CSX compilation halted due to type errors.
+     [echo] ------------------------------
+     [echo]      
+     [echo]  test9.csx
+     [echo]      
+     [echo] ------------------------------
+     [echo]      
+     [java] 
+     [java] 
+     [java] Begin CSX compilation of tests/test9.csx.
+     [java] 
+     [java] CSX program parsed correctly.
+     [java] Error (line 17): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 18): subscript value should be an integer or character, but Boolean was found instead.
+     [java] Error (line 21): Incorrect assignment.
+     [java] Error (line 23): Incorrect assignment.
+     [java] Error (line 25): Incorrect assignment.
+     [java] Error (line 33): subscript value should be an integer or character, but Unknown was found instead.
+     [java] Error (line 34): subscript value should be an integer or character, but Unknown was found instead.
+     [java] Error (line 35): subscript value should be an integer or character, but Unknown was found instead.
+     [java] Error (line 37): Can only cast ints, chars, and bools to int, char, or bool.
+     [java] Error (line 38): Can only cast ints, chars, and bools to int, char, or bool.
+     [java] Error (line 39): Can only cast ints, chars, and bools to int, char, or bool.
+     [java] Error (line 56): Can only cast ints, chars, and bools to int, char, or bool.
+     [java] Error (line 72): Incorrect assignment.
+     [java] Error (line 74): subscript value should be an integer or character, but Boolean was found instead.
+     [java] Error (line 75): subscript value should be an integer or character, but Integer was found instead.
+     [java] Error (line 76): subscript value should be an integer or character, but Character was found instead.
+     [java] Error (line 77): subscript value should be an integer or character, but Boolean was found instead.
+     [java] Error (line 78): subscript value should be an integer or character, but Integer was found instead.
+     [java] Error (line 79): subscript value should be an integer or character, but Character was found instead.
+     [java] Error (line 80): subscript value should be an integer or character, but Boolean was found instead.
+     [java] Error (line 81): subscript value should be an integer or character, but Void was found instead.
+     [java] Error (line 82): subscript value should be an integer or character, but Void was found instead.
+     [java] Error (line 93): Can only cast ints, chars, and bools to int, char, or bool.
+     [java] Error (line 94): Can only cast ints, chars, and bools to int, char, or bool.
+     [java] Error (line 96): Right operand of + must be arithmetic.
+     [java] Error (line 97): Left operand of / must be arithmetic.
+     [java] Error (line 98): Left operand of && must be boolean.
+     [java] Error (line 99): Right operand of || must be boolean.
+     [java] 
+     [java] CSX compilation halted due to type errors.
+     [echo] ------------------------------
+     [echo]      
+     [echo]  test10.csx
+     [echo]      
+     [echo] ------------------------------
+     [echo]      
+     [java] 
+     [java] 
+     [java] Begin CSX compilation of tests/test10.csx.
+     [java] 
+     [java] CSX program parsed correctly.
+     [java] Error: No main method was declared.
+     [java] No CSX type errors detected.
+     [echo] ------------------------------
+     [echo]      
+     [echo]  test11.csx
+     [echo]      
+     [echo] ------------------------------
+     [echo]      
+     [java] 
+     [java] 
+     [java] Begin CSX compilation of tests/test11.csx.
+     [java] 
+     [java] CSX program parsed correctly.
+     [java] Error (line 7): main must have return type void.
+     [java] 
+     [java] CSX compilation halted due to type errors.
+     [echo] ------------------------------
+     [echo]      
+     [echo]  test12.csx
+     [echo]      
+     [echo] ------------------------------
+     [echo]      
+     [java] 
+     [java] 
+     [java] Begin CSX compilation of tests/test12.csx.
+     [java] 
+     [java] CSX program parsed correctly.
+     [java] Error (line 7): main must take zero arguments.
+     [java] 
+     [java] CSX compilation halted due to type errors.
+
+BUILD SUCCESSFUL
+Total time: 7 seconds
