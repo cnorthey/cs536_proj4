@@ -474,7 +474,6 @@ public class TypeChecking extends Visitor {
 		{ /* can't happen */ }
 	}
 
-
 	void visit(binaryOpNode n){
 
 		//Make sure the binary operator has a valid binary operator symbol
@@ -497,15 +496,15 @@ public class TypeChecking extends Visitor {
 		// Type check left and right operands
 		this.visit(n.leftOperand);
 		this.visit(n.rightOperand);
-
+		
 		// Check that left and right operands are both scalar.
-		//These are causing problems
 		try{
 			assertCondition(isScalar(n.leftOperand.kind));
 			assertCondition(isScalar(n.rightOperand.kind));
 		} catch (RuntimeException r){
 			System.out.println(error(n)+"Operands of"+opToString(n.operatorCode)
 					+ "must be scalar.");
+			typeErrors++;
 		}
 		//Check for arithmetic operation, + - / *
 		if (n.operatorCode== sym.PLUS  || n.operatorCode== sym.MINUS ||
@@ -1003,6 +1002,7 @@ public class TypeChecking extends Visitor {
 	//       scalarparam parm; an array or arrayparam kind in an argument
 	//       node matches an arrayparm param
 	void visit(callNode n){
+
 		SymbolInfo id;
 		id = (SymbolInfo) st.globalLookup(n.methodName.idname); // step 1
 		if (id == null) {
@@ -1028,11 +1028,11 @@ public class TypeChecking extends Visitor {
 			n.methodName.type = ASTNode.Types.Error;
 			if(id.parameters.size() == 0){
 				System.out.println(error(n)+n.methodName.idname
-						+" expects 0 parameters");
+						+" requires 0 parameters");
 			} else if (id.parameters.size() == 1){
 				if(id.parameters.get(0).size() != args.size()){
 					System.out.println(error(n)+n.methodName.idname
-							+" expects "+id.parameters.get(0).size()
+							+" requires "+id.parameters.get(0).size()
 							+" parameters");
 				}
 				else
@@ -1050,7 +1050,6 @@ public class TypeChecking extends Visitor {
 						+" definitions of "+n.methodName.idname
 						+" match the parameters in this call.");
 			}
-
 		}
 	}
 
@@ -1125,6 +1124,7 @@ public class TypeChecking extends Visitor {
 		n.kind = n.operand.kind;
 	}
 
+	
 	//similar to callNode
 	//only identifiers denoting functions (methods w non-void result type)
 	//can be called in expressions; result type = type of function
@@ -1140,12 +1140,18 @@ public class TypeChecking extends Visitor {
 					+ "declared.");
 			typeErrors++;
 			n.methodName.type = ASTNode.Types.Error;
+		} else if (id.kind != ASTNode.Kinds.Method) {
+			System.out.println(error(n) + n.methodName.idname+" is not a method.");
+			typeErrors++;
+			n.methodName.type = ASTNode.Types.Error;			
 		} else {
+			//Assign the fctCallNode the type and kind of the method
+			n.type = id.type;
+			n.kind = ASTNode.Kinds.ScalarParm;
 			try{
 				assertCondition(!(id.type == ASTNode.Types.Void));
 			} catch (RuntimeException e){
-				System.out.println(error(n) + n.methodName.idname +" returns void;"+
-						" expected type "+n.methodName.type+".");
+				System.out.println(error(n) + n.methodName.idname +" returns void, but requires a return value.");
 				typeErrors++;
 			}
 			this.visit(n.methodArgs); // step 2
@@ -1154,14 +1160,13 @@ public class TypeChecking extends Visitor {
 				assertCondition(id.containsParms(args)); // step 4
 			} catch (RuntimeException e){
 				typeErrors++;
-				n.methodName.type = ASTNode.Types.Error;
 				if(id.parameters.size() == 0){
 					System.out.println(error(n)+n.methodName.idname
-												+" expects 0 parameters");
+												+" requires 0 parameters");
 				} else if (id.parameters.size() == 1){
 					if(id.parameters.get(0).size() != args.size()){
 						System.out.println(error(n)+n.methodName.idname
-						+" expects "+id.parameters.get(0).size()+" parameters");
+						+" requires "+id.parameters.get(0).size()+" parameters");
 					}
 					else
 					for(int i = 0; i < id.parameters.get(0).size(); i++){
