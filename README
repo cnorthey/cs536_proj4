@@ -16,19 +16,34 @@ provided for us that verifies CSX-lite. This involves walking the abstract
 syntax tree and type checking each node. The main files we will be modifying
 are:
 
-	TypeChecking.java:
+	TypeChecking.java: to implement type checking for non-CSXLite features, we
+                     expand the given code to walk the CSX-style abstract
+                     syntax tree.
 
-	SymbolTable.java:
+	SymbolInfo.java: updated to handle arrays and methods as follows.
+    - public int arraySize was added to to give access to arraySize elsewhere
+      in code when we didn't have access to the arrayDeclNode. All
+      SymbolInfo objects have this field set to -1 in the constructor so that
+      non-arrays don't have to deal with clunky constructor uses; a seperate
+      public function (setArraySiz()) must be used with arrays upon their
+      insertion into the symbol table to correct this.
+    - to keep track of method entries in the symbol table, we have to store
+      the number of parameters and each ones type and kind. That way, we can
+      verify that each method call is valid. To do this, we store an ArrayList
+      of 
 
-	Other relevant files:
+	Other relevant files: SymbolTable.java, parmInfo.java
 
 
 TO DO::
  x create git repo 
  x divvy up code a la Unparsing.java of proj 3
- - 
+ - Caela: callNode, fctCallNode, argsNode, returnNode + better error messages
 
 QUESTIONS:
  - how do we incorporate code from proj 1? SymbolInfo.java?
- - how to handle identNoden type? how tell difference b/w types?
+ - how to handle identNode type? how tell difference b/w types? ./src/ast.java
+ - for nameNode:
+		-> how check subscriptVal kind is scalar? exprOptionNode...cast as
+       exprNode!! has type/kind fields
 
