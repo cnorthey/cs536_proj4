@@ -45,34 +45,34 @@
  <target name ="test" depends="compile">
     <echo message="------------------------------">
      </echo>
-    <echo message=" test1.lite">
+    <echo message=" test.csx">
      </echo>
     <echo message="------------------------------">
      </echo>
    <java classpath="bin;." classname="P4" fork="true" >
-    <arg value="test1.lite">
+    <arg value="test.csx">
     </arg>
    </java>
     <echo message="------------------------------">
      </echo>
-    <echo message=" test2.lite">
+<!--    <echo message=" test2.lite">
      </echo>
-    <echo message="------------------------------">
+
      </echo>
    <java classpath="bin;." classname="P4" fork="true" >
     <arg value="test2.lite">
     </arg>
    </java>
-    <echo message="------------------------------">
+
      </echo>
     <echo message=" test3.lite">
      </echo>
-    <echo message="------------------------------">
+
      </echo>
    <java classpath="bin;." classname="P4" fork="true" >
     <arg value="test3.lite">
     </arg>
-   </java>
+   </java> -->
  </target>
 
 		
