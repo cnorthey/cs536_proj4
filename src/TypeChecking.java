@@ -1126,8 +1126,7 @@ public class TypeChecking extends Visitor {
 		n.kind = n.operand.kind;
 	}
 
-	
-	//similar to callNode
+	//similar to callNode:
 	//only identifiers denoting functions (methods w non-void result type)
 	//can be called in expressions; result type = type of function
 	// 1) look up method; error if not found
@@ -1195,7 +1194,7 @@ public class TypeChecking extends Visitor {
 		} catch (RuntimeException e){
 			System.out.println(error(n)+"Operand of ! must be Boolean.");
 		}
-		//operator is automatically type correct (b/c int)
+		n.type = ASTNode.Types.Boolean;
 	}
 
 	void visit(charLitNode n){
