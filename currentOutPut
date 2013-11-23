@@ -1,0 +1,218 @@
+test:
+     [echo] ------------------------------
+     [echo]      
+     [echo]  test.csx
+     [echo]      
+     [echo] ------------------------------
+     [echo]      
+     [java] 
+     [java] 
+     [java] Begin CSX compilation of test.csx.
+     [java] 
+     [java] CSX program parsed correctly.
+     [java] Error (line 6): i is already declared.
+     [java] Error (line 10): Initializer must be of type Integer
+     [java] Error (line 20): ten is already declared.
+     [java] Error (line 22): ar2 must have more than 0 elements.
+     [java] Error (line 30): Target of kind Value is not assignable.
+     [java] Error (line 31): Target of ++ can't be changed. Var,Unknown
+     [java] Error (line 32): Target of -- can't be changed.
+     [java] Error (line 33): Target of ++ can't be changed. Var,Unknown
+     [java] Error (line 34): Target of -- can't be changed.
+     [java] Error (line 35): Target of ++ can't be changed. Var,Unknown
+     [java] Error (line 36): Target of -- can't be changed.
+     [java] Error (line 37): Target of ++ can't be changed. Var,Unknown
+     [java] Error (line 38): Target of -- can't be changed.
+     [java] Error (line 39): Incorrect assignment.
+     [java] Error (line 40): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 40): Incorrect assignment.
+     [java] Error (line 41): Target node must be scalar.
+     [java] Error (line 41): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 41): Incorrect assignment.
+     [java] Error (line 42): Target node must be scalar.
+     [java] Error (line 42): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 42): Incorrect assignment.
+     [java] Error (line 45): Incorrect assignment.
+     [java] Error (line 49): Incorrect assignment.
+     [java] Error (line 50): expected array.
+     [java] Error (line 50): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 50): Incorrect assignment.
+     [java] Error (line 51): subscript value should be an integer or character, but Boolean was found instead.
+     [java] Error (line 51): Incorrect assignment.
+     [java] Error (line 56): Left operand of + must be arithmetic.Error (line 56): Incorrect assignment.
+     [java] Error (line 57): Operands of - must be scalar.Error (line 57): Incorrect assignment.
+     [java] Error (line 58): Incorrect assignment.
+     [java] Error (line 59): Operands of / must be scalar.Error (line 59): Left operand of / must be arithmetic.Error (line 59): Incorrect assignment.
+     [java] Error (line 60): operands of > must both be arithmetic or bothmust be boolean.
+     [java] Error (line 60): Incorrect assignment.
+     [java] Error (line 61): Operands of != must be scalar.Error (line 61): Incorrect assignment.
+     [java] Error (line 62): exprTest is not declared.
+     [java] Error (line 62): Operands of == must be scalar.Error (line 62): Incorrect assignment.
+     [java] Error (line 63): Left operand of && must be arithmetic.
+     [java] Error (line 63): Incorrect assignment.
+     [java] Error (line 64): Left operand of || must be arithmetic.
+     [java] Error (line 64): Incorrect assignment.
+     [java] Error (line 65): Operands of && must be scalar.Error (line 65): Left operand of && must be arithmetic.
+     [java] Error (line 65): Right operand of && must be arithmetic.
+     [java] Error (line 65): Incorrect assignment.
+     [java] Error (line 66): Target node must be scalar.
+     [java] Error (line 66): Incorrect assignment.
+     [java] Error (line 67): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 67): Incorrect assignment.
+     [java] Error (line 68): Target node must be scalar.
+     [java] Error (line 68): Incorrect assignment.
+     [java] Error (line -1): first is not declared.
+     [java] Error (line 75): Only int and char values may be read.
+     [java] Error (line 75): Only int and char values may be read.
+     [java] Error (line 75): Only int and char values may be read.
+     [java] Error (line -1): first is not declared.
+     [java] Error (line 76): Only int and char values may be read.
+     [java] Error (line 76): IOtest is not declared.
+     [java] Error (line 76): Only int and char values may be read.
+     [java] Error (line 76): Only int and char values may be read.
+     [java] Error (line 83): Missing return value of type Integer.
+     [java] Error (line 84): Return type mismatch; found Booleanbut expected Integer.
+     [java] Error (line 87): f is already declared. Invalid overloading.
+     [java] Error (line 87): f must be of type Integer
+     [java] Error (line 88): Return type mismatch; found Integerbut expected Void.
+     [java] Error (line 90): Return type mismatch; found Booleanbut expected Void.
+     [java] Error (line 96): udef() isn't declared.
+     [java] Error (line 96): udef gives a return value.
+     [java] Error (line 96): Incompatable parameters.
+     [java] Error (line 97): c gives a return value.
+     [java] Error (line 97): Incompatable parameters.
+     [java] Error (line 98): pp() isn't declared.
+     [java] Error (line 98): pp gives a return value.
+     [java] Error (line 98): Incompatable parameters.
+     [java] Error (line 99): pp() isn't declared.
+     [java] Error (line 99): pp gives a return value.
+     [java] Error (line 99): Incompatable parameters.
+     [java] Error (line 100): pp() isn't declared.
+     [java] Error (line 100): pp gives a return value.
+     [java] Error (line 100): Incompatable parameters.
+     [java] Error (line 101): pp() isn't declared.
+     [java] Error (line 101): pp gives a return value.
+     [java] Error (line 101): Incompatable parameters.
+     [java] Error (line 102): f() isn't declared.
+     [java] Error (line 102): f gives a return value.
+     [java] Error (line 102): Incompatable parameters.
+     [java] Error (line 103): pp() isn't declared.
+     [java] Error (line 103): pp gives a return value.
+     [java] Error (line 103): Incompatable parameters.
+     [java] Error (line 104): pp() isn't declared.
+     [java] Error (line 104): pp gives a return value.
+     [java] Error (line 104): Incompatable parameters.
+     [java] Error (line 105): pp() isn't declared.
+     [java] Error (line 105): pp gives a return value.
+     [java] Error (line 105): Incompatable parameters.
+     [java] Error (line 111): ff() isn't declared.
+     [java] Error (line 111): ff gives a return value.
+     [java] Error (line 111): Incompatable parameters.
+     [java] Error (line 112): ff() isn't declared in this scope.
+     [java] Error (line 112): ff returns void; expected type Unknown.
+     [java] Error (line 112): Incompatable parameters.
+     [java] Error (line 112): Target node must be scalar.
+     [java] Error (line 112): Incorrect assignment.
+     [java] Error (line 113): ff() isn't declared in this scope.
+     [java] Error (line 113): ff returns void; expected type Unknown.
+     [java] Error (line 113): Incompatable parameters.
+     [java] Error (line 113): Target node must be scalar.
+     [java] Error (line 113): Incorrect assignment.
+     [java] Error (line 114): ff() isn't declared in this scope.
+     [java] Error (line 114): ff returns void; expected type Unknown.
+     [java] Error (line 114): Incompatable parameters.
+     [java] Error (line 114): Incorrect assignment.
+     [java] Error (line 115): ff() isn't declared in this scope.
+     [java] Error (line 115): ff returns void; expected type Unknown.
+     [java] Error (line 115): Incompatable parameters.
+     [java] Error (line 115): Target node must be scalar.
+     [java] Error (line 115): Incorrect assignment.
+     [java] Error (line 116): ff() isn't declared in this scope.
+     [java] Error (line 116): ff returns void; expected type Unknown.
+     [java] Error (line 116): Incompatable parameters.
+     [java] Error (line 116): Target node must be scalar.
+     [java] Error (line 116): Incorrect assignment.
+     [java] Error (line 117): ff() isn't declared in this scope.
+     [java] Error (line 117): ff returns void; expected type Unknown.
+     [java] Error (line 117): Incompatable parameters.
+     [java] Error (line 117): Target node must be scalar.
+     [java] Error (line 117): Incorrect assignment.
+     [java] Error (line 118): ff() isn't declared in this scope.
+     [java] Error (line 118): ff returns void; expected type Unknown.
+     [java] Error (line 118): Incompatable parameters.
+     [java] Error (line 118): Target node must be scalar.
+     [java] Error (line 118): Incorrect assignment.
+     [java] Error (line 119): ff() isn't declared in this scope.
+     [java] Error (line 119): ff returns void; expected type Unknown.
+     [java] Error (line 119): Incompatable parameters.
+     [java] Error (line 119): Target node must be scalar.
+     [java] Error (line 119): Incorrect assignment.
+     [java] Error (line 120): ff() isn't declared in this scope.
+     [java] Error (line 120): ff returns void; expected type Unknown.
+     [java] Error (line 120): Incompatable parameters.
+     [java] Error (line 120): Target node must be scalar.
+     [java] Error (line 120): Incorrect assignment.
+     [java] Error (line 123): i is already declared.
+     [java] Error (line 124): j is already declared.
+     [java] Error (line 124): i is already declared.
+     [java] Error (line 124): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 124): Incorrect assignment.
+     [java] Error (line 131): Incorrect assignment.
+     [java] Error (line 132): suspend() isn't declared.
+     [java] Error (line 132): suspend gives a return value.
+     [java] Error (line 132): Incompatable parameters.
+     [java] Error (line -1): first is not declared.
+     [java] Error (line 138): Only int and char values may be read.
+     [java] Error (line 138): Only int and char values may be read.
+     [java] Error (line 143): Both the left and right hand sides of an assignment must have the same type.
+     [java] Error (line 143): Incorrect assignment.
+     [java] Error (line 144): Target node must be scalar.
+     [java] Error (line 144): Incorrect assignment.
+     [java] Error (line 145): Target node must be scalar.
+     [java] Error (line 145): Incorrect assignment.
+     [java] Error (line 146): Left operand of + must be arithmetic.Error (line 146): Incorrect assignment.
+     [java] Error (line 147): Incorrect assignment.
+     [java] Error (line 148): local is not declared.
+     [java] Error (line 148): Target node must be scalar.
+     [java] Error (line 148): Incorrect assignment.
+     [java] Error (line 149): local is not declared.
+     [java] Error (line 149): Incorrect assignment.
+     [java] Error (line 151): operands of != must both be arithmetic or bothmust be boolean.
+     [java] Error (line 152): Incorrect assignment.
+     [java] Error (line 152): L isn't a valid label.
+     [java] Error (line 152): Label Lout of scope.
+     [java] Error (line 153): Can only cast ints, chars, and bools to int, char, or bool.
+     [java] Error (line 153): Operands of / must be scalar.Error (line 153): Incorrect assignment.
+     [java] Error (line 153): L isn't a valid label.
+     [java] Error (line 153): Label Lout of scope.
+     [java] Error (line 154): Can only cast ints, chars, and bools to int, char, or bool.
+     [java] Error (line 154): Target node must be scalar.
+     [java] Error (line 154): Incorrect assignment.
+     [java] Error (line 156): me label is already declared.
+     [java] Error (line 157): Incorrect assignment.
+     [java] Error (line 157): main isn't a valid label.
+     [java] Error (line 157): Label mainout of scope.
+     [java] Error (line 158): Can only cast ints, chars, and bools to int, char, or bool.
+     [java] Error (line 158): Operands of / must be scalar.Error (line 158): Incorrect assignment.
+     [java] Error (line 158): L isn't a valid label.
+     [java] Error (line 158): Label Lout of scope.
+     [java] Error (line 159): xxx isn't a valid label.
+     [java] Error (line 159): Label xxxout of scope.
+     [java] Error (line 159): yyy isn't a valid label.
+     [java] Error (line 159): Label yyyout of scope.
+     [java] Error (line 164): p() isn't declared.
+     [java] Error (line 164): p gives a return value.
+     [java] Error (line 164): Incompatable parameters.
+     [java] Error (line 164): q() isn't declared.
+     [java] Error (line 164): q gives a return value.
+     [java] Error (line 164): Incompatable parameters.
+     [java] Error (line 167): f() isn't declared in this scope.
+     [java] Error (line 167): f returns void; expected type Unknown.
+     [java] Error (line 167): Incompatable parameters.
+     [java] Error (line 167): Operands of >= must be scalar.Error (line 167): f() isn't declared in this scope.
+     [java] Error (line 167): f returns void; expected type Unknown.
+     [java] Error (line 167): Incompatable parameters.
+     [java] Error (line 167): Operands of <= must be scalar.
+     [java] CSX compilation halted due to type errors.
+     [echo] ------------------------------
+     [echo] 
