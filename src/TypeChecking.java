@@ -395,6 +395,7 @@ public class TypeChecking extends Visitor {
 			}
 			try{
 				//target and source must have same type
+//System.out.println(n.target.type+","+n.source.type);
 				assertCondition(n.target.type == n.source.type);
 			} catch (RuntimeException e) {
 				typeErrors++;
@@ -403,7 +404,7 @@ public class TypeChecking extends Visitor {
 			}
       return;
 		}
-		
+
 		if((n.target.varName.kind == ASTNode.Kinds.Array) && // step 5
 				(n.source.kind == ASTNode.Kinds.Array) &&
 				(n.target.varName.type == n.source.type)){

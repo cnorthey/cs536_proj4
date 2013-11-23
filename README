@@ -52,8 +52,10 @@ TO DO::
  x divvy up code a la Unparsing.java of proj 3
  - Caela: callNode, fctCallNode, argsNode, returnNode + better error messages
  - debuggin:
+    should have error on line 48
     char array and strings - countChars()
-		should have error on line 57
+		SHOULD have error on line			:
+    SHOULD NOT have error on line	: 144?
 
  
 TESTS:: 
