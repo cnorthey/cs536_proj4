@@ -17,7 +17,7 @@ import java.util.ArrayList;
 class SymbolInfo extends Symb {
 	public ASTNode.Kinds kind;
 	public ASTNode.Types type;
-	private ArrayList<ArrayList<parmInfo>> parameters;
+	public ArrayList<ArrayList<parmInfo>> parameters;
 	
 	int arraySize; //Used by arrays
 	private exprNode[] elements;   //used by arrays

@@ -117,7 +117,8 @@ public class TypeChecking extends Visitor {
 
 	int countChars(String str){
 		int count = 0;
-		str.replace("\"","");
+		str = str.substring(1,str.length()-1);//remove quoats
+
 		while(str.contains("\\n")){
 			str = str.replace("\\n", "");
 			count++;
@@ -134,7 +135,8 @@ public class TypeChecking extends Visitor {
 			str = str.replace("\\'", "");
 			count++;
 		}
-		return count+=str.length();
+		return count+=str.length(); //add rest of chars
+
 	}
 
 	String error(ASTNode n) {
@@ -385,13 +387,14 @@ public class TypeChecking extends Visitor {
 			return;
 		} 
 		if(isScalar(n.target.kind)){ // step 4 
-			try{
+/*			try{
 				assertCondition(isScalar(n.source.kind));
 			} catch (RuntimeException e){
 				typeErrors++;
-				System.out.println(error(n) + "Source expression must be scalar.");
+				System.out.println(error(n) + "Source expression must be scalar."+n.source.kind);
 				typeErrors++; return;
 			}
+*/
 			typesMustBeEqual(n.source.type, n.target.type,
 					error(n) + "Both the left and right hand sides of an assignment must"
 							+ " have the same type.");
@@ -448,10 +451,9 @@ public class TypeChecking extends Visitor {
 	void visit(printNode n){
 		this.visit(n.outputValue);
 		try{
-			assertCondition((n.outputValue.kind == ASTNode.Kinds.Value &&
-					(n.outputValue.type == ASTNode.Types.Integer ||
+			assertCondition((n.outputValue.type == ASTNode.Types.Integer ||
 					n.outputValue.type == ASTNode.Types.Boolean ||
-					n.outputValue.type == ASTNode.Types.Character )) ||
+					n.outputValue.type == ASTNode.Types.Character ) ||
 					(n.outputValue.type == ASTNode.Types.Character &&
 					n.outputValue.kind == ASTNode.Kinds.Array ) ||
 					(n.outputValue.kind == ASTNode.Kinds.String));
@@ -948,9 +950,9 @@ public class TypeChecking extends Visitor {
 				try {
 					st.insert(id);
 				} catch (DuplicateException d) 
-				{ /* can't happen, already checked */ }
+				{ System.out.println("here"); }
 				catch (EmptySTException e) 
-				{ /* can't happen */ }
+				{ System.out.println("here1"); }
 
 			}
 			this.visit(n.loopBody); // 4c
@@ -962,28 +964,30 @@ public class TypeChecking extends Visitor {
 	// 2) check that identNode's kind is VisibleLable (error if hidden)
 	void visit(breakNode n){
 		SymbolInfo id;
-		id = (SymbolInfo) st.localLookup(n.label.idname);
+		id = (SymbolInfo) st.globalLookup(n.label.idname);
 		if (id == null) {
 			System.out.println(error(n) + n.label.idname + " isn't a valid label.");
 			typeErrors++;
+			return;
 		}
 		try{
-			assertCondition(n.label.kind == ASTNode.Kinds.VisibleLabel);
+			assertCondition(id.kind == ASTNode.Kinds.VisibleLabel);
 		} catch (RuntimeException e) {
 			typeErrors++;
-			System.out.println(error(n) + "Label "+n.label.idname+"out of scope.");
+			System.out.println(error(n) + "Label "+n.label.idname+" out of scope.");
 		}
 	}
 
 	void visit(continueNode n){
 		SymbolInfo id;
-		id = (SymbolInfo) st.localLookup(n.label.idname);
+		id = (SymbolInfo) st.globalLookup(n.label.idname);
 		if (id == null) {
 			System.out.println(error(n) + n.label.idname + " isn't a valid label.");
 			typeErrors++;
+			return;
 		}
 		try{
-			assertCondition(n.label.kind == ASTNode.Kinds.VisibleLabel);
+			assertCondition(id.kind == ASTNode.Kinds.VisibleLabel);
 		} catch (RuntimeException e) {
 			typeErrors++;
 			System.out.println(error(n) + "Label "+n.label.idname+"out of scope.");
@@ -1183,6 +1187,11 @@ public class TypeChecking extends Visitor {
 
 	void visit(unaryOpNode n){
 		this.visit(n.operand);
+		try{
+			assertCondition(n.operand.type == ASTNode.Types.Boolean);
+		} catch (RuntimeException e){
+			System.out.println(error(n)+"Operand of ! must be Boolean.");
+		}
 		//operator is automatically type correct (b/c int)
 	}
 
@@ -1192,9 +1201,7 @@ public class TypeChecking extends Visitor {
 	}
 
 	void visit(strLitNode n){
-		//automatically type correct like intLitNode?
 		n.kind = ASTNode.Kinds.String;
-		n.type = ASTNode.Types.Character;
 	}
 
 	void visit(trueNode n){
