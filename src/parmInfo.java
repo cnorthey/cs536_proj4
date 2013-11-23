@@ -1,3 +1,17 @@
+/* CS 536: PROJECT 4 - CSX TYPE CHECKER
+ * 
+ * Caela Northey (cs login: caela)	905 653 2238 
+ * Alan Irish    (cs login: irish)  906 591 2819
+ *
+ * DUE DATE: FRIDAY NOV 22, 2013
+ *
+ ***************************************************
+ *  class used to hold the type and kind information
+ *  of a parameter. Also included is a method to 
+ *  compare a parmInfo object to another parmInfo
+ *  object, detecting if they are matching
+ * 
+ ****************************************************/
 
 public class parmInfo {
 	ASTNode.Kinds kind;

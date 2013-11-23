@@ -10,9 +10,8 @@
 // The following methods type check AST nodes used in CSX
 public class TypeChecking extends Visitor { 
 
-	//	static int typeErrors =  0;     // Total number of type errors found 
-	//  	public static SymbolTable st = new SymbolTable(); 	
-	int typeErrors;     // Total number of type errors found 
+	int typeErrors;     // Total number of type errors found
+	boolean mainDeclared = false; //Tracks if main has been declared
 	SymbolTable st;	
 
 	TypeChecking(){
@@ -43,22 +42,10 @@ public class TypeChecking extends Visitor {
 		}
 	}
 
-	//Not sure if all of these are necessary
 	void typeMustBe(ASTNode.Types testType, ASTNode.Types option1, 
 			ASTNode.Types option2, String errorMsg){
 		if ((testType != ASTNode.Types.Error) && !((testType == option1) || 
 				(testType == option2)))
-		{
-			System.out.print(errorMsg);
-			typeErrors++;
-		}
-	}
-
-	void typeMustBe(ASTNode.Types testType, ASTNode.Types option1, 
-			ASTNode.Types option2, ASTNode.Types option3,
-			String errorMsg){
-		if ((testType != ASTNode.Types.Error) && !((testType == option1) || 
-				(testType == option2) || (testType == option3)))
 		{
 			System.out.print(errorMsg);
 			typeErrors++;
@@ -215,7 +202,7 @@ public class TypeChecking extends Visitor {
 			//If the initValue is not null, handle initialization
 			if(!n.initValue.isNull())
 			{
-				//2. Type check initial value expression.
+				// Type check initial value expression.
 				visit(n.initValue);
 
 				// Check that the initial value’s type is typeNode.type
@@ -226,7 +213,7 @@ public class TypeChecking extends Visitor {
 				try{
 					assertCondition(isScalar(((exprNode)n.initValue).kind));
 				} catch (RuntimeException r){
-					System.out.println(error(n) + "Initial value must be scalar");
+					System.out.println(error(n)+"Initial value must be scalar");
 				}
 				// Enter identNode.idname into symbol table with 
 				// 			type = typeNode.type and kind = Variable.
@@ -441,7 +428,6 @@ public class TypeChecking extends Visitor {
 				n.operatorCode == sym.SLASH ||
 				n.operatorCode == sym.TIMES);
 
-
 		// Set binaryOpNode.kind = Value
 		// This is handled in the abstract syntax tree
 
@@ -532,6 +518,11 @@ public class TypeChecking extends Visitor {
 		this.visit(n.fields);
 		//Type check method declarations
 		this.visit(n.methods);
+		
+		//Check if a main method was declared
+		if(mainDeclared == false){
+			System.out.println("Error: No main method was declared.");
+		}
 	}
 
 	void  visit(methodDeclsNode n){
@@ -553,6 +544,30 @@ public class TypeChecking extends Visitor {
 	void visit(methodDeclNode n){		
 		SymbolInfo     id;
 		id = (SymbolInfo) st.localLookup(n.name.idname);
+		
+		//Check if main has already been declared.
+		if(mainDeclared){
+			System.out.println(error(n) + 
+					"No method can be declared after main.");
+			typeErrors++;
+			n.name.type = ASTNode.Types.Error;
+		}
+		
+		//If the current method is main, check it is void with zero arguments
+		if(n.name.idname.equals("main")){
+			mainDeclared = true;
+			if(!n.args.isNull()){
+				System.out.println(error(n)+"main must take zero arguments.");
+				typeErrors++;
+				n.name.type = ASTNode.Types.Error;
+			}
+			
+			if(n.returnType.type != ASTNode.Types.Void){
+				System.out.println(error(n)+"main must have return type void.");
+				typeErrors++;
+				n.name.type = ASTNode.Types.Error;
+			}
+		}
 
 		// Check that identNode.idname is not already in the symbol table.
 		if (id != null) {
@@ -688,9 +703,7 @@ public class TypeChecking extends Visitor {
 			n.argName.type = ASTNode.Types.Error;
 			//Inserts the erroneous node in the param list
 			st.addParm(new parmInfo(ASTNode.Kinds.ScalarParm,n.argType.type));
-			//parameters.add(new parmInfo(ASTNode.Kinds.ScalarParm,n.argType.type));
 		} else {
-
 			//Enter new id into the symbol table
 			id = new SymbolInfo(n.argName.idname,
 					ASTNode.Kinds.ScalarParm, n.argType.type);
@@ -705,7 +718,6 @@ public class TypeChecking extends Visitor {
 
 			// Insert parameter into the list of parameters
 			st.addParm(new parmInfo(ASTNode.Kinds.ScalarParm,n.argType.type));
-			//parameters.add(new parmInfo(ASTNode.Kinds.ScalarParm, n.argType.type));
 		}
 	}
 
@@ -722,8 +734,6 @@ public class TypeChecking extends Visitor {
 			// Insert erroneous parameter node into parm list
 			st.addParm(new parmInfo(ASTNode.Kinds.ArrayParm, 
 						n.elementType.type));
-		//	parameters.add(new parmInfo(ASTNode.Kinds.ArrayParm, 
-		//			n.elementType.type));
 		} else {		
 			// Enter parameter into symbol table 
 			id = new SymbolInfo(n.argName.idname,
@@ -740,9 +750,6 @@ public class TypeChecking extends Visitor {
 			//Add to scope's list of parameters
 			st.addParm(new parmInfo(ASTNode.Kinds.ArrayParm, 
 					n.elementType.type));
-
-		//	parameters.add(new parmInfo(ASTNode.Kinds.ArrayParm, 
-		//										n.elementType.type));
 		}
 	}
 
@@ -825,11 +832,11 @@ public class TypeChecking extends Visitor {
 	}
 
 	void visit(charTypeNode n){
-		//No type checking needed?
+		//No type checking needed
 	}
 
 	void visit(voidTypeNode n){
-		//No type checking needed?
+		//No type checking needed
 	}
 
 	// 1) check condition (expr tree)
@@ -973,7 +980,7 @@ public class TypeChecking extends Visitor {
 
 	void visit(strLitNode n){
 		//automatically type correct like intLitNode?
-		n.kind = ASTNode.Kinds.Array;
+		n.kind = ASTNode.Kinds.String;
 		n.type = ASTNode.Types.Character;
 	}
 
