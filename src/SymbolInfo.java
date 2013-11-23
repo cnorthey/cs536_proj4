@@ -66,7 +66,7 @@ class SymbolInfo extends Symb {
 				for(int j = 0; j < parameters.get(i).size(); j++)
 				{
 					//Check if parameters match
-					duplicate = parms.get(j).isParmEqual(parameters.get(i).get(j));					
+					duplicate = parms.get(j).isParmEqual(parameters.get(i).get(j));
 					//If different parms, then check the next list of parms
 					if(duplicate == false)
 						break;					

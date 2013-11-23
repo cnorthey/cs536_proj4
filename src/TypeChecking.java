@@ -1,4 +1,3 @@
-
 /* CS 536: PROJECT 4 - CSX TYPE CHECKER
  * 
  * Caela Northey (cs login: caela)	905 653 2238 
@@ -91,13 +90,12 @@ public class TypeChecking extends Visitor {
 	//info for each arg in arg tree
 	ArrayList<parmInfo> buildArgList(argsNodeOption firstArg){
 		ArrayList<parmInfo> args = new ArrayList<parmInfo>();
-		if(!firstArg.isNull()){
-			argsNode currentArg = (argsNode)firstArg;
-			while (!currentArg.moreArgs.isNull()){ //while args to process
-				parmInfo pi = new parmInfo(currentArg.argVal.kind, currentArg.argVal.type);
-				args.add(pi);
-				currentArg = (argsNode)currentArg.moreArgs;
-			}
+		argsNodeOption currentArg = firstArg;
+		while (!currentArg.isNull()){ //while args to process
+			argsNode temp = (argsNode)currentArg;
+			parmInfo pi = new parmInfo(temp.argVal.kind, temp.argVal.type);
+			args.add(pi);
+			currentArg = temp.moreArgs;
 		}
 		return args;
 	}
@@ -115,6 +113,28 @@ public class TypeChecking extends Visitor {
 			return;
 		System.out.println(errorMsg);
 		typeErrors++;
+	}
+
+	int countChars(String str){
+		int count = 0;
+		str.replace("\"","");
+		while(str.contains("\\n")){
+			str = str.replace("\\n", "");
+			count++;
+		}
+		while(str.contains("\\t")){
+			str = str.replace("\\t", "");
+			count++;
+		}
+		while(str.contains("\\")){
+			str = str.replace("\\", "");
+			count++;
+		}
+		while(str.contains("\\'")){
+			str = str.replace("\\'", "");
+			count++;
+		}
+		return count+=str.length();
 	}
 
 	String error(ASTNode n) {
@@ -323,7 +343,8 @@ public class TypeChecking extends Visitor {
 			assertCondition(n.varName.kind == ASTNode.Kinds.Array); // step 4
 		} catch (RuntimeException e) {
 			typeErrors++;
-			System.out.println(error(n) + "expected array.");
+			System.out.println(error(n) + "Only arrays can be subscripted.");
+			return;
 		}
 		exprNode temp = (exprNode)n.subscriptVal;
 		try{
@@ -344,7 +365,7 @@ public class TypeChecking extends Visitor {
 	// 3) check that nameNode' kind is assignable (var, array, scalar
 	//    param, or array param)
 	// 4) if nameNode's kind is scalar then check expr tree's kind is also
-	//    scalar and that booth have same type
+	//    scalar and that both have same type; then return
 	// 5) if nameNode and expr tree's kinds are both arrays and both have
 	//    same type, check that length same; then return
 	// 6) if nameNode's kind is array and type is char, and expr tree's kind
@@ -362,23 +383,26 @@ public class TypeChecking extends Visitor {
 			System.out.println(error(n) + "Target of kind " + n.target.kind +
                          " is not assignable.");
 			return;
-		}
-		if(isScalar(n.target.kind)){ // step 4
+		} 
+		if(isScalar(n.target.kind)){ // step 4 
 			try{
 				assertCondition(isScalar(n.source.kind));
 			} catch (RuntimeException e){
-				System.out.println(error(n) + "Target node must be scalar.");
+				typeErrors++;
+				System.out.println(error(n) + "Source expression must be scalar.");
+				typeErrors++; return;
 			}
-				typesMustBeEqual(n.source.type, n.target.type,
+			typesMustBeEqual(n.source.type, n.target.type,
 					error(n) + "Both the left and right hand sides of an assignment must"
 							+ " have the same type.");
-		}
-		try{
-			//can't assign to a constant (aka value)
-			assertCondition(n.target.varName.kind != ASTNode.Kinds.Value);
-		} catch (RuntimeException e) {
-			typeErrors++;
-			System.out.println(error(n) + "Cannot assign to a constant value.");
+			try{
+				//can't assign to a constant (aka value)
+				assertCondition(n.target.varName.kind != ASTNode.Kinds.Value);
+			} catch (RuntimeException e) {
+				typeErrors++;
+				System.out.println(error(n) + "Cannot assign to a constant value.");
+			}
+			return;
 		}
 		if((n.target.varName.kind == ASTNode.Kinds.Array) && // step 5
 				(n.source.kind == ASTNode.Kinds.Array) &&
@@ -401,10 +425,10 @@ public class TypeChecking extends Visitor {
 			SymbolInfo id_s = (SymbolInfo)st.globalLookup(n.target.varName.idname);
 			strLitNode temp2 = (strLitNode)n.source; //know is string => strLitNode
 			try{
-				assertCondition(id_s.arraySize == temp2.strval.length());
+				assertCondition(id_s.arraySize == countChars(temp2.strval));
 			} catch (RuntimeException e) {
 				typeErrors++;
-				System.out.println(error(n) + "Character array and String must have same length");
+				System.out.println(error(n) + "Character array and String must have same length."+id_s.arraySize+","+countChars(temp2.strval));
 			}
 			return;
 		}
@@ -436,6 +460,7 @@ public class TypeChecking extends Visitor {
 			System.out.println(error(n) + "Can only print Integer, Boolean, and "+
                          "Character values, String, or arrays of Characters.");
 		}
+		this.visit(n.morePrints);
 	}
 
 	void visit(blockNode n){
@@ -479,7 +504,7 @@ public class TypeChecking extends Visitor {
 			assertCondition(isScalar(n.leftOperand.kind));
 			assertCondition(isScalar(n.rightOperand.kind));
 		} catch (RuntimeException r){
-			System.out.print(error(n)+"Operands of"+opToString(n.operatorCode)
+			System.out.println(error(n)+"Operands of"+opToString(n.operatorCode)
 					+ "must be scalar.");
 		}
 		//Check for arithmetic operation, + - / *
@@ -528,7 +553,8 @@ public class TypeChecking extends Visitor {
 	}
 
 	void visit(intLitNode n){
-		//      All intLits are automatically type-correct
+		n.kind = ASTNode.Kinds.Var;
+		n.type = ASTNode.Types.Integer;
 	}
 
 	void visit(classNode n){
@@ -665,6 +691,14 @@ public class TypeChecking extends Visitor {
 			id = new SymbolInfo(n.name.idname, ASTNode.Kinds.Method, 
 					n.returnType.type);
 
+			//Add method to symbol table
+			try {
+				st.insert(id);
+			} catch (DuplicateException d) 
+			{ /* can't happen */ }
+			catch (EmptySTException e) 
+			{ /* can't happen */ }
+
 			//Create new scope in symbol table.
 			st.openScope();
 
@@ -687,17 +721,19 @@ public class TypeChecking extends Visitor {
 			n.name.idinfo=id;
 
 			//Add method to symbol table
-			try {
-				st.insert(id);
-			} catch (DuplicateException d) 
-			{ /* can't happen */ }
-			catch (EmptySTException e) 
-			{ /* can't happen */ }
+//			try {
+	//			st.insert(id);
+//			} catch (DuplicateException d) 
+//			{ /* can't happen */ }
+//			catch (EmptySTException e) 
+//			{ /* can't happen */ }
+
 		}
 	}
 
 	// only vars(including params) of type int or char may be ++/--
 	void visit(incrementNode n){
+		this.visit(n.target);
 		try{
 			assertCondition((n.target.kind == ASTNode.Kinds.Var ||
       	              n.target.kind == ASTNode.Kinds.ScalarParm ||
@@ -706,11 +742,12 @@ public class TypeChecking extends Visitor {
       	              n.target.type == ASTNode.Types.Integer));
 		} catch (RuntimeException e ){
 			typeErrors++;
-			System.out.println(error(n) + "Target of ++ can't be changed. "+n.target.kind+","+n.target.type);
+			System.out.println(error(n) + "Target of ++ can't be changed.");
 		}
 	}
 
 	void visit(decrementNode n){
+		this.visit(n.target);
 		try{
 			assertCondition((n.target.kind == ASTNode.Kinds.Var ||
       	              n.target.kind == ASTNode.Kinds.ScalarParm ||
@@ -967,17 +1004,19 @@ public class TypeChecking extends Visitor {
 	//       node matches an arrayparm param
 	void visit(callNode n){
 		SymbolInfo id;
-		id = (SymbolInfo) st.localLookup(n.methodName.idname); // step 1
+		id = (SymbolInfo) st.globalLookup(n.methodName.idname); // step 1
 		if (id == null) {
-			System.out.println(error(n) + n.methodName.idname+"()"+ " isn't declared.");
+			System.out.println(error(n) + n.methodName.idname+"()"+ " isn't declared in this scope.");
 			typeErrors++;
+			return;
 		}
 		try{
 			assertCondition(id.type == ASTNode.Types.Void && 
                       id.kind == ASTNode.Kinds.Method);
 		} catch (RuntimeException e){
 			typeErrors++;
-			System.out.println(error(n) + n.methodName.idname +" gives a return value.");
+			System.out.println(error(n) + n.methodName.idname +" requires a return value.");
+			return;
 		}
 		this.visit(n.args); // step 2
 		ArrayList<parmInfo> args = buildArgList(n.args); // step 3
@@ -992,15 +1031,18 @@ public class TypeChecking extends Visitor {
 
 	//only int and char values may be read
 	void visit(readNode n){
-		this.visit(n.targetVar);
-		try{
-			assertCondition(n.targetVar.kind == ASTNode.Kinds.Value &&
+		if(n.targetVar.varName.linenum != -1){ //work around from prev proj
+			this.visit(n.targetVar);
+			try{
+				assertCondition(//n.targetVar.kind == ASTNode.Kinds.Var &&
                      (n.targetVar.type == ASTNode.Types.Integer ||
                       n.targetVar.type == ASTNode.Types.Character));
-		} catch (RuntimeException e){
-			typeErrors++;
-			System.out.println(error(n) + "Only int and char values may be read.");
-		}
+			} catch (RuntimeException e){
+				typeErrors++;
+				System.out.println(error(n) + "Only int and char values may be read.");
+				return;
+			}
+		}//end if
 		this.visit(n.moreReads);
 	}
 
@@ -1022,7 +1064,7 @@ public class TypeChecking extends Visitor {
 			               (temp.type == currReturnType));
 			} catch (RuntimeException e){
 					System.out.println(error(n) + "Return type mismatch; found "+
-                        temp.type+"but expected "+currReturnType+".");
+                        temp.type+" but expected "+currReturnType+".");
 			}
 		}
 	}
@@ -1036,6 +1078,7 @@ public class TypeChecking extends Visitor {
 	//can only type cast expressions of type int, char, or bool
   //to type int, char, or bool.
 	void visit(castNode n){
+		this.visit(n.operand);
 		try{
 			assertCondition(!(n.resultType instanceof voidTypeNode) &&
                       (n.operand.type == ASTNode.Types.Integer ||
@@ -1045,7 +1088,16 @@ public class TypeChecking extends Visitor {
 			typeErrors++;
 			System.out.println(error(n) + "Can only cast ints, chars, and bools"+
                          " to int, char, or bool.");
+			return;
 		}
+		if(n.resultType instanceof boolTypeNode){
+			n.type = ASTNode.Types.Boolean;
+		} else if (n.resultType instanceof charTypeNode){
+			n.type = ASTNode.Types.Character;
+		}else if (n.resultType instanceof intTypeNode){
+			n.type = ASTNode.Types.Integer;
+		}
+		n.kind = n.operand.kind;
 	}
 
 	//similar to callNode
@@ -1087,7 +1139,8 @@ public class TypeChecking extends Visitor {
 	}
 
 	void visit(charLitNode n){
-		// Type and kind assigned in abstract syntax tree
+		n.kind = ASTNode.Kinds.Var;
+		n.type = ASTNode.Types.Character;
 	}
 
 	void visit(strLitNode n){

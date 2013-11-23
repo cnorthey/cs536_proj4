@@ -51,6 +51,10 @@ TO DO::
  x create git repo 
  x divvy up code a la Unparsing.java of proj 3
  - Caela: callNode, fctCallNode, argsNode, returnNode + better error messages
+ - debuggin:
+    char array and strings - countChars()
+		should have error on line 57
+
  
 TESTS:: 
  
