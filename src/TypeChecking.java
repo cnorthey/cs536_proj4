@@ -482,10 +482,10 @@ public class TypeChecking extends Visitor {
 			//Check that left and right operands have a boolean type. 
 			typeMustBe(n.leftOperand.type, ASTNode.Types.Boolean, error(n) + 
 					"Left operand of" + opToString(n.operatorCode) +  
-					"must be arithmetic.");
+					"must be boolean.");
 			typeMustBe(n.rightOperand.type, ASTNode.Types.Boolean, error(n) + 
 					"Right operand of" + opToString(n.operatorCode) +  
-					"must be arithmetic.");
+					"must be boolean.");
 		}
 	}
 
