@@ -1,4 +1,4 @@
-CS 536: PROJECT 3 - CSX TYPE CHECKER
+CS 536: PROJECT 4 - CSX TYPE CHECKER
 
 Caela Northey (cs login: caela)	905 653 2238 
 Alan Irish    (cs login: irish) 906 591 2819
@@ -20,30 +20,94 @@ are:
                      expand the given code to walk the CSX-style abstract
                      syntax tree.
 
-	SymbolInfo.java: updated to handle arrays and methods as follows.
-    - public int arraySize was added to to give access to arraySize elsewhere
-      in code when we didn't have access to the arrayDeclNode. All
-      SymbolInfo objects have this field set to -1 in the constructor so that
-      non-arrays don't have to deal with clunky constructor uses; a seperate
-      public function (setArraySiz()) must be used with arrays upon their
-      insertion into the symbol table to correct this.
-    - to keep track of method entries in the symbol table, we have to store
-      the number of parameters and each ones type and kind. That way, we can
-      verify that each method call is valid. To do this, we store an ArrayList
-      of 
+	SymbolTable.java:
+An ArrayList of parmInfo objects was added to the Scope class inside of the
+SymbolTable. This ArrayList is used to track the kind and type of the 
+parameters found in method declarations. This list is created while typechecking
+the argDecls subtree of a method declaration. The list is used to check if the 
+method can be overloaded. The list is stored in a list of lists inside the
+SymbolInfo object for the method. Two methods were added to SymbolTable.java:
+	1. addParm(), which adds a parameter's parmInfo object to the above list.
+	2. getParms(), which returns the list of parmInfo objects.
+
+	SymbolInfo.java:
+Added to this file is an ArrayList of ArrayLists of parmInfo objects. This list
+of lists is only used by methods, which use it to store all the valid lists of
+parameters. This allows methods to be overloaded. In addition, the method
+containsParms() is used to detect if the SymbolInfo object contains a matching
+list of parameters in its list of lists. This is used for detecting if over-
+loading is possible, and to check if a function call is valid.
 
 	Other relevant files: SymbolTable.java, parmInfo.java
+
+	parmInfo.java:
+This class defines objects that store the type and kind information of a given 
+parameter. This class also includes a function to compare two parameters, to
+see if they have the same type and kind. This function is used in in the
+SymbolInfo classes to detect matching parameters.
 
 
 TO DO::
  x create git repo 
  x divvy up code a la Unparsing.java of proj 3
  - Caela: callNode, fctCallNode, argsNode, returnNode + better error messages
+ 
+TESTS:: 
+ 
+1. Test for overloading:
 
-QUESTIONS:
- - how do we incorporate code from proj 1? SymbolInfo.java?
- - how to handle identNode type? how tell difference b/w types? ./src/ast.java
- - for nameNode:
-		-> how check subscriptVal kind is scalar? exprOptionNode...cast as
-       exprNode!! has type/kind fields
+class overloadingTest {
 
+void test1(char a){};			//Initial function
+
+void test1(int a){};			//Valid overloading
+void test1(bool a){};
+
+void test1(bool c){};			//Invalid overloading
+void test1(int c, bool d){}; 	
+
+void test1(int c[]){};
+void test1(int d[]){};			//Invalid overload
+void test1(bool d[]){};
+void test1(bool d[], int f){};
+void test1(int c[], bool d[]){} //Valid
+void test1(int e[], bool f[]){} //Invalid
+
+void test1(){}; //Valid
+void test1(){}; //Invalid
+
+void main(){}
+}
+
+Expected output:
+
+     [java] Begin CSX compilation of smallTest.csx.
+     [java] CSX program parsed correctly.
+     [java] Error (line 8): test1 is already declared. Invalid overloading.
+     [java] Error (line 12): test1 is already declared. Invalid overloading.
+     [java] Error (line 16): test1 is already declared. Invalid overloading.
+     [java] Error (line 19): test1 is already declared. Invalid overloading.
+     [java] CSX compilation halted due to type errors.
+
+
+2. Test for main method:
+
+class mainMethodProblems {
+
+void test1(){}; 
+void test1(int a){};
+
+int main(bool b){}
+
+void test1(bool b){};
+
+}
+
+Expected output:
+
+     [java] Begin CSX compilation of smallTest.csx.
+     [java] CSX program parsed correctly.
+     [java] Error (line 6): main must take zero arguments.
+     [java] Error (line 6): main must have return type void.
+     [java] Error (line 8): No method can be declared after main.
+     [java] CSX compilation halted due to type errors.

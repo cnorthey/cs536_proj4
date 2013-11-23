@@ -19,7 +19,6 @@ class SymbolInfo extends Symb {
 	public ASTNode.Types type;
 	private ArrayList<ArrayList<parmInfo>> parameters;
 	
-	
 	int arraySize; //Used by arrays
 	private exprNode[] elements;   //used by arrays
 
@@ -47,7 +46,9 @@ class SymbolInfo extends Symb {
 	}
 	
 	//This function compares a given list of parameters to see if they
-	//are different than the accepted lists of parameters, allowing overloading
+	//match any of the accepted lists of parameters. This function can be used
+	//to detect invalid overloading, and can be used to detect a proper
+	//function call.
 	public boolean containsParms(ArrayList<parmInfo> parms)
 	{
 		boolean duplicate = false;
