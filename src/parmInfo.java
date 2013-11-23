@@ -25,15 +25,24 @@ public class parmInfo {
 	public boolean isParmEqual(parmInfo p){
 		//Check that types and kinds are equal
 		
-		return (this.type == p.type && (
-				(kind == ASTNode.Kinds.ArrayParm && 
-					(p.kind == ASTNode.Kinds.Array || 
+		if(this.type != p.type)
+			return false;
+		
+		if(this.kind == ASTNode.Kinds.ArrayParm ||
+		   this.kind == ASTNode.Kinds.Array ||
+		   this.kind == ASTNode.Kinds.String)
+			return (p.kind == ASTNode.Kinds.Array || 
 					 p.kind == ASTNode.Kinds.ArrayParm ||
-					 p.kind == ASTNode.Kinds.String)) ||
-				(kind == ASTNode.Kinds.ScalarParm &&
-					(p.kind == ASTNode.Kinds.ScalarParm || 
+					 p.kind == ASTNode.Kinds.String);
+		
+		if(this.kind == ASTNode.Kinds.ScalarParm ||
+		   this.kind == ASTNode.Kinds.Value ||
+		   this.kind == ASTNode.Kinds.Var)
+			return (p.kind == ASTNode.Kinds.ScalarParm || 
 					 p.kind == ASTNode.Kinds.Value ||
-					 p.kind == ASTNode.Kinds.Var))));
+					 p.kind == ASTNode.Kinds.Var);
+		
+		return false;
 	}
 	
 	public String toString(){

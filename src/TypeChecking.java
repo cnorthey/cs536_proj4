@@ -1035,13 +1035,15 @@ public class TypeChecking extends Visitor {
 							+" expects "+id.parameters.get(0).size()
 							+" parameters");
 				}
+				else
 				for(int i = 0; i < id.parameters.get(0).size(); i++){
 					if(i == args.size())
 						break;
 					if(!args.get(i).isParmEqual(id.parameters.get(0).get(i)))
-						System.out.println(error(n)+"In the call to "
+					{	System.out.println(error(n)+"In the call to "
 									+n.methodName.idname+" parameter "
-									+i+" has incorrect type.");
+									+(i+1)+" has incorrect type.");
+					}
 				}
 			} else{
 				System.out.println(error(n)+"None of the "+id.parameters.size()
@@ -1161,13 +1163,14 @@ public class TypeChecking extends Visitor {
 						System.out.println(error(n)+n.methodName.idname
 						+" expects "+id.parameters.get(0).size()+" parameters");
 					}
+					else
 					for(int i = 0; i < id.parameters.get(0).size(); i++){
 						if(i == args.size())
 							break;
 						if(!args.get(i).isParmEqual(id.parameters.get(0).get(i)))
 							System.out.println(error(n)+"In the call to "
 								+n.methodName.idname
-								+" parameter "+i+" has incorrect type.");
+								+" parameter "+(i+1)+" has incorrect type.");
 					}
 				} else{
 					System.out.println(error(n)+"None of the "+id.parameters.size()
